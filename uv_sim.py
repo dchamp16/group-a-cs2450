@@ -1,5 +1,3 @@
-
-
 class UVSim:
     def __init__(self):
         # initialize memory, accumulator and instruction pointers
