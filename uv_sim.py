@@ -8,9 +8,11 @@ class UVSim:
     def load_program_from_file(self, file_path):
         # Loads a machine language program from a file into the UVSim memory
         pass
+
     def execute_program(self):
         # Executes the machine language program loaded into the UVSim memory
         pass
-    def handle_instruction(self, opcode, operan):
+
+    def handle_instruction(self, opcode, operand):
         # handles the execution of the single instruction based on the opcode and operand
         pass
