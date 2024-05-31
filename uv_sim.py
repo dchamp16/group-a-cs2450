@@ -1,6 +1,6 @@
-from instructions import halt_instruction, read_instruction, write_instruction, load_instruction, \
+from instructions import read_instruction, write_instruction, load_instruction, \
     store_instruction, add_instruction, subtract_instruction, divide_instruction, multiply_instruction, \
-    branch_instruction, branchneg_instruction, branchzero_instruction
+    branch_instruction, branchneg_instruction, branchzero_instruction, halt_instruction
 
 
 class UVSim:
@@ -72,15 +72,13 @@ class UVSim:
             40: branch_instruction,
             41: branchneg_instruction,
             42: branchzero_instruction,
-            43: self.halt_instruction
+            43: halt_instruction
         }
 
-        # Check if the operand is within the valid memory range
         if operand < 0 or operand >= len(self.memory):
             print(f"Error: Operand {operand} out of memory range.")
             return False
 
-        # Get the function corresponding to the opcode
         func = instruction_set.get(opcode)
         if func:
             try:

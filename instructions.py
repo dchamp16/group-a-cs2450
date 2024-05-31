@@ -6,18 +6,28 @@ def read_instruction(uv_sim, operand):
     uv_sim(UVSim): instance of the UVSim class
     operant(int): memory location index where the input stored
     """
-    pass
+
+    try:
+        value = int(input("Enter and integer: "))
+        uv_sim.memory[operand] = value
+        print(f"stored {value} at location {operand}")
+        return True
+    except ValueError:
+        print("Invalid input! enter valid integer")
+        return False
 
 
 def write_instruction(uv_sim, operand):
     """
-    writes the number from specied location to the output
+    writes the number from specified location to the output
 
     parameter:
     uv_sim(UVSim): instance of the UVSim class
     operant(int): memory location index which will be outputted
     """
-    pass
+    value = uv_sim.memory[operand]
+    print(f"Value at location {operand} is {value}")
+    return True
 
 
 def load_instruction(uv_sim, operand):
@@ -28,7 +38,9 @@ def load_instruction(uv_sim, operand):
     uv_sim(UVSim): instance of the UVSim class
     operant(int): memory location index which to load the value
     """
-    pass
+    uv_sim.accumulator = uv_sim.memory[operand]
+    print(f"Accumulator value {uv_sim.accumulator} at location {operand}")
+    return True
 
 
 def store_instruction(uv_sim, operand):
@@ -39,7 +51,9 @@ def store_instruction(uv_sim, operand):
     uv_sim(UVSim): instance of the UVSim class
     operant(int): memory location index which the accumulator value will be stored
     """
-    pass
+    uv_sim.memory[operand] = uv_sim.accumulator
+    print(f"Accumulator value {uv_sim.accumulator} at location {operand}")
+    return True
 
 
 def add_instruction(uv_sim, operand):
@@ -50,7 +64,9 @@ def add_instruction(uv_sim, operand):
     uv_sim(UVSim): instance of the UVSim class
     operant(int): memory location index which to add the value
     """
-    pass
+    uv_sim.accumulator += uv_sim.memory[operand]
+    print(f"Added value from location {operand} to accumulator at location {uv_sim.accumulator}")
+    return True
 
 
 def subtract_instruction(uv_sim, operand):
