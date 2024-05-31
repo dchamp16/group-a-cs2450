@@ -120,13 +120,12 @@ def branchzero_instruction(uv_sim, operand):
     pass
 
 
-def mock_instruction(uv_sim, operand):
-    # this is test function delete when done
-    print(f"Mock executing instruction with operand {operand}")
-    return True
-
-
 def halt_instruction(uv_sim, operand):
-    # this is test function delete when done
+    """
+    Halts the execution of the program
+
+    :param uv_sim (UVSim): the instance of UVSim class to operate the simulation
+    :param operand (int): memory location not use in this function
+    """
     print("Program halted.")
-    return False  # To break the execution loop
+    return False  # To break the execution loop from execute_program

@@ -1,4 +1,6 @@
-from instructions import mock_instruction, halt_instruction
+from instructions import halt_instruction, read_instruction, write_instruction, load_instruction, \
+    store_instruction, add_instruction, subtract_instruction, divide_instruction, multiply_instruction, \
+    branch_instruction, branchneg_instruction, branchzero_instruction
 
 
 class UVSim:
@@ -52,30 +54,40 @@ class UVSim:
     def handle_instruction(self, opcode, operand):
         # handles the execution of the single instruction based on the opcode and operand
         """
-        Mock handler for instruction to test the execution flow
+        execute the appropriate instruction based on the opcode and operand
 
-        :param opcode:
-        :param operand:
-        :return:
+        :param opcode (int): dictates which operation to perform
+        :param operand (int): memory address
+        :return (bool): true if instruction was successful, false if error occurred
         """
         instruction_set = {
-            10: mock_instruction,  # Read
-            11: mock_instruction,  # Write
-            20: mock_instruction,  # Load
-            21: mock_instruction,  # Store
-            30: mock_instruction,  # Add
-            31: mock_instruction,  # Subtract
-            32: mock_instruction,  # Divide
-            33: mock_instruction,  # Multiply
-            40: mock_instruction,  # Branch
-            41: mock_instruction,  # Branch if negative
-            42: mock_instruction,  # Branch if zero
-            43: halt_instruction  # Halt
+            10: read_instruction,
+            11: write_instruction,
+            20: load_instruction,
+            21: store_instruction,
+            30: add_instruction,
+            31: subtract_instruction,
+            32: divide_instruction,
+            33: multiply_instruction,
+            40: branch_instruction,
+            41: branchneg_instruction,
+            42: branchzero_instruction,
+            43: self.halt_instruction
         }
+
+        # Check if the operand is within the valid memory range
+        if operand < 0 or operand >= len(self.memory):
+            print(f"Error: Operand {operand} out of memory range.")
+            return False
+
+        # Get the function corresponding to the opcode
         func = instruction_set.get(opcode)
         if func:
-            return func(self, operand)
+            try:
+                return func(self, operand)
+            except Exception as e:
+                print(f"Error executing {opcode} with operand {operand}: {e}")
+                return False
         else:
             print(f"Invalid opcode: {opcode}")
             return False
-
