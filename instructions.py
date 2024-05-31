@@ -42,7 +42,6 @@ def store_instruction(uv_sim, operand):
     pass
 
 
-
 def add_instruction(uv_sim, operand):
     """
     subtract the number from a specified location from the accumulator
@@ -119,3 +118,15 @@ def branchzero_instruction(uv_sim, operand):
 
     """
     pass
+
+
+def mock_instruction(uv_sim, operand):
+    # this is test function delete when done
+    print(f"Mock executing instruction with operand {operand}")
+    return True
+
+
+def halt_instruction(uv_sim, operand):
+    # this is test function delete when done
+    print("Program halted.")
+    return False  # To break the execution loop
