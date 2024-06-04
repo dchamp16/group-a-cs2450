@@ -89,3 +89,56 @@ class UVSim:
         else:
             print(f"Invalid opcode: {opcode}")
             return False
+
+# This is a potential script given the class for the UVSim etc.
+# from instructions import Instructions
+# from utils import parse_instruction, read_program
+
+# class UVSim:
+#     def __init__(self):
+#         self.memory = [0] * 100
+#         self.accumulator = 0
+#         self.instruction_counter = 0
+#         self.halted = False
+
+#     def load_program(self, program):
+#         for i, instruction in enumerate(program):
+#             self.memory[i] = instruction
+
+#     def fetch(self):
+#         return self.memory[self.instruction_counter]
+
+#     def execute(self):
+#         while not self.halted:
+#             instruction = self.fetch()
+#             op_code, operand = parse_instruction(instruction)
+#             self.instruction_counter += 1
+#             self.decode_and_execute(op_code, operand)
+
+#     def decode_and_execute(self, op_code, operand):
+#         if op_code == Instructions.READ:
+#             self.memory[operand] = int(input("Enter a value: "))
+#         elif op_code == Instructions.WRITE:
+#             print(self.memory[operand])
+#         elif op_code == Instructions.LOAD:
+#             self.accumulator = self.memory[operand]
+#         elif op_code == Instructions.STORE:
+#             self.memory[operand] = self.accumulator
+#         elif op_code == Instructions.ADD:
+#             self.accumulator += self.memory[operand]
+#         elif op_code == Instructions.SUBTRACT:
+#             self.accumulator -= self.memory[operand]
+#         elif op_code == Instructions.DIVIDE:
+#             self.accumulator //= self.memory[operand]
+#         elif op_code == Instructions.MULTIPLY:
+#             self.accumulator *= self.memory[operand]
+#         elif op_code == Instructions.BRANCH:
+#             self.instruction_counter = operand
+#         elif op_code == Instructions.BRANCHNEG:
+#             if self.accumulator < 0:
+#                 self.instruction_counter = operand
+#         elif op_code == Instructions.BRANCHZERO:
+#             if self.accumulator == 0:
+#                 self.instruction_counter = operand
+#         elif op_code == Instructions.HALT:
+#             self.halted = True
