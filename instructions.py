@@ -1,3 +1,17 @@
+class Instructions:
+    READ = 10
+    WRITE = 11
+    LOAD = 20
+    STORE = 21
+    ADD = 30
+    SUBTRACT = 31
+    DIVIDE = 32
+    MULTIPLY = 33
+    BRANCH = 40
+    BRANCHNEG = 41
+    BRANCHZERO = 42
+    HALT = 43
+
 def read_instruction(uv_sim, operand):
     """
     reads a number from the user and stores it in specified location
