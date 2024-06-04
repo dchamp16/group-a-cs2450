@@ -91,7 +91,12 @@ class UVSim:
             return False
 
 # This is a potential script given the class for the UVSim etc.
-# from instructions import Instructions
+# from instructions import Instructions, (
+#     read_instruction, write_instruction, load_instruction,
+#     store_instruction, add_instruction, subtract_instruction,
+#     divide_instruction, multiply_instruction, branch_instruction,
+#     branch_neg_instruction, branch_zero_instruction, halt_instruction
+# )
 # from utils import parse_instruction, read_program
 
 # class UVSim:
@@ -117,28 +122,26 @@ class UVSim:
 
 #     def decode_and_execute(self, op_code, operand):
 #         if op_code == Instructions.READ:
-#             self.memory[operand] = int(input("Enter a value: "))
+#             read_instruction(self, operand)
 #         elif op_code == Instructions.WRITE:
-#             print(self.memory[operand])
+#             write_instruction(self, operand)
 #         elif op_code == Instructions.LOAD:
-#             self.accumulator = self.memory[operand]
+#             load_instruction(self, operand)
 #         elif op_code == Instructions.STORE:
-#             self.memory[operand] = self.accumulator
+#             store_instruction(self, operand)
 #         elif op_code == Instructions.ADD:
-#             self.accumulator += self.memory[operand]
+#             add_instruction(self, operand)
 #         elif op_code == Instructions.SUBTRACT:
-#             self.accumulator -= self.memory[operand]
+#             subtract_instruction(self, operand)
 #         elif op_code == Instructions.DIVIDE:
-#             self.accumulator //= self.memory[operand]
+#             divide_instruction(self, operand)
 #         elif op_code == Instructions.MULTIPLY:
-#             self.accumulator *= self.memory[operand]
+#             multiply_instruction(self, operand)
 #         elif op_code == Instructions.BRANCH:
-#             self.instruction_counter = operand
+#             branch_instruction(self, operand)
 #         elif op_code == Instructions.BRANCHNEG:
-#             if self.accumulator < 0:
-#                 self.instruction_counter = operand
+#             branch_neg_instruction(self, operand)
 #         elif op_code == Instructions.BRANCHZERO:
-#             if self.accumulator == 0:
-#                 self.instruction_counter = operand
+#             branch_zero_instruction(self, operand)
 #         elif op_code == Instructions.HALT:
-#             self.halted = True
+#             halt_instruction(self, operand)
