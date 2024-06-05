@@ -1,91 +1,93 @@
-from instructions import read_instruction, write_instruction, load_instruction, \
-    store_instruction, add_instruction, subtract_instruction, divide_instruction, multiply_instruction, \
-    branch_instruction, branchneg_instruction, branchzero_instruction, halt_instruction
-
-
 class UVSim:
     def __init__(self):
-        # initialize memory, accumulator and instruction pointers
-        self.memory = [0] * 100
-        self.accumulator = 0
-        self.instruction_pointer = 0
+        self.memory = [0] * 100  # 100-word memory
+        self.accumulator = 0  # This is the accumulator register
+        self.instruction_counter = 0  # This is the instruction counter
 
-    def load_program_from_file(self, file_path):
-        """
-        loads a Basicml program from a file into UVSIM memory
-        each line of the file is contain one instruction written as a 4 digit decimal number
+    def load_program(self, program):
+        for index, instruction in enumerate(program):
+            self.memory[index] = instruction
 
-        parameter:
-        file_path (str): the path to the file to load BasicML program
-        """
-        try:
-            with open(file_path, 'r') as file:
-                line_count = 0
-                for i, line in enumerate(file):
-                    if line.strip():  # Ensure the line is not empty.
-                        self.memory[i] = int(line.strip())  # Convert line to integer and store in memory.
-                        line_count += 1
-            print(f"Successfully loaded {line_count} instructions into memory.")
-        except FileNotFoundError:
-            print(f"Error: The file '{file_path}' does not exist.")
-        except ValueError:
-            print("Error: All lines in the input file must contain valid integer values.")
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+    def fetch(self):
+        instruction = self.memory[self.instruction_counter]
+        self.instruction_counter += 1
+        return instruction
 
-    def execute_program(self):
-        try:
-            while True:
-                if self.instruction_pointer >= len(self.memory):
-                    print("End of memory without encountering HALT")
-                    break
+    def decode(self, instruction):
+        opcode = instruction // 100
+        operand = instruction % 100
+        return opcode, operand
 
-                instruction = self.memory[self.instruction_pointer]
-                opcode = instruction // 100
-                operand = instruction % 100
-                self.instruction_pointer += 1 # this will move to the next instruction
+    def execute(self, opcode, operand):
+        if opcode == 10:
+            self.read(operand)
+        elif opcode == 11:
+            self.write(operand)
+        elif opcode == 20:
+            self.load(operand)
+        elif opcode == 21:
+            self.store(operand)
+        elif opcode == 30:
+            self.add(operand)
+        elif opcode == 31:
+            self.subtract(operand)
+        elif opcode == 32:
+            self.divide(operand)
+        elif opcode == 33:
+            self.multiply(operand)
+        elif opcode == 40:
+            self.branch(operand)
+        elif opcode == 41:
+            self.branchneg(operand)
+        elif opcode == 42:
+            self.branchzero(operand)
+        elif opcode == 43:
+            self.halt()
 
-                if not self.handle_instruction(opcode, operand):
-                    print(f"Execute halted unexpectedly at instruction {instruction}")
-                    break
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+    def run(self):
+        while True:
+            instruction = self.fetch()
+            opcode, operand = self.decode(instruction)
+            print(f"Fetched instruction: {instruction}")
+            print(f"Decoded to opcode: {opcode}, operand: {operand}")
+            self.execute(opcode, operand)
 
-    def handle_instruction(self, opcode, operand):
-        # handles the execution of the single instruction based on the opcode and operand
-        """
-        execute the appropriate instruction based on the opcode and operand
+    def read(self, operand):
+        value = int(input("Enter a value: "))
+        self.memory[operand] = value
 
-        :param opcode (int): dictates which operation to perform
-        :param operand (int): memory address
-        :return (bool): true if instruction was successful, false if error occurred
-        """
-        instruction_set = {
-            10: read_instruction,
-            11: write_instruction,
-            20: load_instruction,
-            21: store_instruction,
-            30: add_instruction,
-            31: subtract_instruction,
-            32: divide_instruction,
-            33: multiply_instruction,
-            40: branch_instruction,
-            41: branchneg_instruction,
-            42: branchzero_instruction,
-            43: halt_instruction
-        }
+    def write(self, operand):
+        print(f"Value at memory location {operand}: {self.memory[operand]}")
 
-        if operand < 0 or operand >= len(self.memory):
-            print(f"Error: Operand {operand} out of memory range.")
-            return False
+    def load(self, operand):
+        self.accumulator = self.memory[operand]
 
-        func = instruction_set.get(opcode)
-        if func:
-            try:
-                return func(self, operand)
-            except Exception as e:
-                print(f"Error executing {opcode} with operand {operand}: {e}")
-                return False
-        else:
-            print(f"Invalid opcode: {opcode}")
-            return False
+    def store(self, operand):
+        self.memory[operand] = self.accumulator
+
+    def add(self, operand):
+        self.accumulator += self.memory[operand]
+
+    def subtract(self, operand):
+        self.accumulator -= self.memory[operand]
+
+    def divide(self, operand):
+        self.accumulator //= self.memory[operand]
+
+    def multiply(self, operand):
+        self.accumulator *= self.memory[operand]
+
+    def branch(self, operand):
+        self.instruction_counter = operand
+
+    def branchneg(self, operand):
+        if self.accumulator < 0:
+            self.instruction_counter = operand
+
+    def branchzero(self, operand):
+        if self.accumulator == 0:
+            self.instruction_counter = operand
+
+    def halt(self):
+        print("Program halted.")
+        exit()

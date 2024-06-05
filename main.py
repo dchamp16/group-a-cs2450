@@ -1,18 +1,21 @@
-from uv_sim import UVSim
-
+import uv_sim
+import utils
 
 def main():
-    """
-    starts the UVSim application, initialize the simulator , load and execute it
-    """
-    uv_sim = UVSim()
-    program_file = input("enter the path to BasicML program file:")
-    uv_sim.load_program_from_file(program_file)
-    uv_sim.execute_program()
+    print("Enter the path to BasicML program file:")
+    file_path = input()
+    
+    program = utils.load_program(file_path)
+    if program:
+        print(f"Successfully loaded {len(program)} instructions into memory.")
+    else:
+        print("Failed to load program.")
+        return
+    
+    sim = uv_sim.UVSim()
+    sim.load_program(program)
 
-    print(uv_sim.memory)
+    sim.run()
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
