@@ -11,7 +11,6 @@ class UVSim:
             return False
         for index, instruction in enumerate(program):
             self.memory[index] = instruction
-        print(f"Program loaded: {self.memory[:len(program)]}")
         return True
 
     def fetch(self):
@@ -20,7 +19,6 @@ class UVSim:
             self.halt()
             return None
         instruction = self.memory[self.instruction_counter]
-        print(f"Fetched instruction at {self.instruction_counter}: {instruction}")
         self.instruction_counter += 1
         return instruction
 
@@ -29,11 +27,9 @@ class UVSim:
             return None, None
         opcode = instruction // 100
         operand = instruction % 100
-        print(f"Decoded instruction: opcode {opcode}, operand {operand}")
         return opcode, operand
 
     def execute(self, opcode, operand):
-        print(f"Executing opcode {opcode} with operand {operand}")
         if opcode == 10:
             self.read(operand)
         elif opcode == 11:
@@ -78,9 +74,6 @@ class UVSim:
                 break
             opcode, operand = self.decode(instruction)
             self.execute(opcode, operand)
-            print(f"Memory state: {self.memory}")
-            print(f"Accumulator: {self.accumulator}")
-            print(f"Instruction Counter: {self.instruction_counter}")
 
     def read(self, operand):
         value = int(input("Enter a value: "))
@@ -96,41 +89,30 @@ class UVSim:
         self.memory[operand] = self.accumulator
 
     def add(self, operand):
-        print(f"Accumulator before add: {self.accumulator}")
         self.accumulator += self.memory[operand]
-        print(f"Accumulator after add: {self.accumulator}")
 
     def subtract(self, operand):
-        print(f"Accumulator before subtract: {self.accumulator}")
         self.accumulator -= self.memory[operand]
-        print(f"Accumulator after subtract: {self.accumulator}")
 
     def divide(self, operand):
         if self.memory[operand] == 0:
             print("Cannot divide by zero")
             self.halt()
         else:
-            print(f"Accumulator before divide: {self.accumulator}")
             self.accumulator //= self.memory[operand]
-            print(f"Accumulator after divide: {self.accumulator}")
 
     def multiply(self, operand):
-        print(f"Accumulator before multiply: {self.accumulator}")
         self.accumulator *= self.memory[operand]
-        print(f"Accumulator after multiply: {self.accumulator}")
 
     def branch(self, operand):
-        print(f"Branching to instruction {operand}")
         self.instruction_counter = operand
 
     def branchneg(self, operand):
         if self.accumulator < 0:
-            print(f"Branching to {operand} because accumulator is negative")
             self.instruction_counter = operand
 
     def branchzero(self, operand):
         if self.accumulator == 0:
-            print(f"Branching to {operand} because accumulator is zero")
             self.instruction_counter = operand
 
     def halt(self):
