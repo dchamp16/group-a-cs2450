@@ -28,10 +28,12 @@ class TestUVSimInstructions(unittest.TestCase):
     def test_write_instruction(self):
         """Test writing a memory location's value to output."""
         instructions = [1005, 1105, 4300]  # Read into 5, write 5, halt
-        expected_output = "25"
         with patch('builtins.print') as mocked_print:
             self.load_and_run(instructions, inputs=["25"])
-            mocked_print.assert_called_with(f"Value at memory location 5: 25")
+            calls = mocked_print.call_args_list
+            printed_lines = [call.args[0] for call in calls]
+            expected_output = "Value at memory location 5: 25"
+            assert expected_output in printed_lines, f"{expected_output} not found in printed output"
 
     def test_load_store_instruction(self):
         """Test loading and storing values."""
@@ -41,19 +43,19 @@ class TestUVSimInstructions(unittest.TestCase):
 
     def test_add_subtract_instruction(self):
         """Test addition and subtraction."""
-        instructions = [1005, 1006, 2005, 3006, 2107, 2005, 3106, 2108, 4300]  # Setup, add, subtract, halt
+        instructions = [1009, 1010, 2009, 3010, 2111, 2009, 3110, 2112, 4300]  # Setup, add, subtract, halt
         expected_memory = self.load_and_run(instructions, inputs=["20", "10"])
         memory = eval(expected_memory)
-        self.assertEqual(memory[7], 30)  # 20 + 10
-        self.assertEqual(memory[8], 10)  # 20 - 10
+        self.assertEqual(memory[11], 30)  # 20 + 10
+        self.assertEqual(memory[12], 10)  # 20 - 10
 
     def test_multiply_divide_instruction(self):
         """Test multiplication and division."""
-        instructions = [1005, 1006, 2005, 3306, 2107, 2005, 3206, 2108, 4300]  # Setup, multiply, divide, halt
+        instructions = [1009, 1010, 2009, 3310, 2111, 2009, 3210, 2112, 4300]  # Setup, multiply, divide, halt
         expected_memory = self.load_and_run(instructions, inputs=["12", "3"])
         memory = eval(expected_memory)
-        self.assertEqual(memory[7], 36)  # 12 * 3
-        self.assertEqual(memory[8], 4)  # 12 / 3
+        self.assertEqual(memory[11], 36)  # 12 * 3
+        self.assertEqual(memory[12], 4)  # 12 / 3
 
     def test_branch_instructions(self):
         """Test unconditional and conditional branches."""
