@@ -61,9 +61,18 @@ No additional installation to run UVSim
 - instruction.py: Functions for BasicML instruction
 - utils.py: (Optional) Helper function if needed
 
-## UseCase
+## UseCase:
+- Understand Machine Language
+- Learn Computer Architecture
+- Create a bridge to learning Assembly language
+- Be able to reinforce Programming basics
+- Visualize algorithms on a more robust level
+- Analyze low level executables
+- Learn the basics of early computing
+- Recreation of classical programs
+- Safe testing of machine language code 
+- Introduce user to systems programming basics
 
-# TODO UseCase
 
 ## User Story:
 As a computer science student. I would like to execute a BasicML Program on UVSim. this will help me to understand how machine language will interact with the computer memory
