@@ -54,8 +54,6 @@ No additional installation to run UVSim
 +1109  # Output the content of location 09
 +4300  # Halt execution
 ```
-### Usage
-TODO
 
 ### File Structure
 - main.py: Initialize and starts UVSim
