@@ -48,14 +48,29 @@ class TestUVSimInstructions(unittest.TestCase):
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 30)  # 20 + 10
         self.assertEqual(memory[12], 10)  # 20 - 10
+    def test_add_subtract_instruction_2(self):
+        """Test addition and subtraction with second argument."""
+        instructions = [1009, 1010, 2009, 3010, 2111, 2009, 3110, 2112, 4300]  # Setup, add, subtract, halt
+        expected_memory = self.load_and_run(instructions, inputs=["5000", "4999"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[11], 9999)  # 20 + 10
+        self.assertEqual(memory[12], 1)  # 20 - 10
+
 
     def test_multiply_divide_instruction(self):
         """Test multiplication and division."""
         instructions = [1009, 1010, 2009, 3310, 2111, 2009, 3210, 2112, 4300]  # Setup, multiply, divide, halt
-        expected_memory = self.load_and_run(instructions, inputs=["12", "3"])
+        expected_memory = self.load_and_run(instructions, inputs=["0012", "0003"])
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 36)  # 12 * 3
         self.assertEqual(memory[12], 4)  # 12 / 3
+    def test_multiply_divide_instruction_2(self):
+        """Test multiplication and division with second argument."""
+        instructions = [1009, 1010, 2009, 3310, 2111, 2009, 3210, 2112, 4300]  # Setup, multiply, divide, halt
+        expected_memory = self.load_and_run(instructions, inputs=["0033", "0023"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[11], 759)  # 12 * 3
+        self.assertEqual(memory[12], 1)  # 12 / 3
 
     def test_branch_instructions(self):
         """Test unconditional and conditional branches."""

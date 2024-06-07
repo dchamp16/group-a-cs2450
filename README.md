@@ -67,11 +67,11 @@ No additional installation to run UVSim
 - Create a bridge to learning Assembly language
 - Be able to reinforce Programming basics
 - Visualize algorithms on a more robust level
-- Analyze low level executables
+- Analyze low level conditionals 
 - Learn the basics of early computing
-- Recreation of classical programs
-- Safe testing of machine language code 
-- Introduce user to systems programming basics
+- Be able to do basic arithmetic
+- Safe testing of machine language code  
+- Introduction to memory manipulations 
 
 
 ## User Story:
