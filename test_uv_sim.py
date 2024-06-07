@@ -22,14 +22,14 @@ class TestUVSimInstructions(unittest.TestCase):
     def test_read_instruction(self):
         """Test reading an input into a specific memory location."""
         instructions = [1005, 4300]  # Read into location 5, halt
-        expected_memory = self.load_and_run(instructions, inputs=["25"])
+        expected_memory = self.load_and_run(instructions, inputs=["0025"])
         self.assertEqual(eval(expected_memory)[5], 25)
 
     def test_write_instruction(self):
         """Test writing a memory location's value to output."""
         instructions = [1005, 1105, 4300]  # Read into 5, write 5, halt
         with patch('builtins.print') as mocked_print:
-            self.load_and_run(instructions, inputs=["25"])
+            self.load_and_run(instructions, inputs=["0025"])
             calls = mocked_print.call_args_list
             printed_lines = [call.args[0] for call in calls]
             expected_output = "Value at memory location 5: 25"
@@ -38,13 +38,13 @@ class TestUVSimInstructions(unittest.TestCase):
     def test_load_store_instruction(self):
         """Test loading and storing values."""
         instructions = [1005, 2005, 2106, 4300]  # Read into 5, load 5 to acc, store acc to 6, halt
-        expected_memory = self.load_and_run(instructions, inputs=["30"])
+        expected_memory = self.load_and_run(instructions, inputs=["0030"])
         self.assertEqual(eval(expected_memory)[6], 30)
 
     def test_add_subtract_instruction(self):
         """Test addition and subtraction."""
         instructions = [1009, 1010, 2009, 3010, 2111, 2009, 3110, 2112, 4300]  # Setup, add, subtract, halt
-        expected_memory = self.load_and_run(instructions, inputs=["20", "10"])
+        expected_memory = self.load_and_run(instructions, inputs=["0020", "0010"])
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 30)  # 20 + 10
         self.assertEqual(memory[12], 10)  # 20 - 10
@@ -75,10 +75,18 @@ class TestUVSimInstructions(unittest.TestCase):
     def test_branch_instructions(self):
         """Test unconditional and conditional branches."""
         instructions = [1005, 4107, 2005, 3105, 4209, 1105, 4300, 4300, 1106, 4300]  # Complex branch logic
-        expected_memory = self.load_and_run(instructions, inputs=["0"])
+        expected_memory = self.load_and_run(instructions, inputs=["0000"])
         memory = eval(expected_memory)
         self.assertEqual(memory[5], 0)
         # Further assertions depending on branch outcomes
+    def test_loop_implementation(self):
+        """Test loop implementation to display how conditionals branches execute.
+        This code will take an input from -9999-9999 and count up or down until it gets to 0."""
+        instructions = [1, 1012, 2012, 2113, 4210, 4108, 3100, 4003, 3000, 4003, 2113, 4300, 0000, 0000]
+        expected_memory = self.load_and_run(instructions, inputs=["0100"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[12], 100)
+        self.assertEqual(memory[13], 0)
 
 if __name__ == '__main__':
     unittest.main()
