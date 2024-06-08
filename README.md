@@ -59,7 +59,7 @@ replace project-directory with the actual project directory name
 - Run UVSIM
 
 ```python main.py```
-
+___
 ### Linux:
 
 - Open Terminal
@@ -75,7 +75,7 @@ replace project-directory with the actual project directory name
 - Run UVSIM
 
 ```python main.py```
-
+___
 ### macOS:
 
 - Open Terminal
