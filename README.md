@@ -18,13 +18,13 @@
 ### Overview
 
 UVSim is a Basic Machine Language Simulator is designed to teach student what machine language and computer architecture. its a simulator for simple virtual machine and execute a program written using BasicML. User can load and run BasicML it shows how machine instruction to manipulate memory and registers.
-___
+
 ### Features
 
 - Execute and Load BasicML.
 - Simulator for machine language control flow and I/O.
 - It shows the state of memory and does accumulate when execution.
-___
+
 ## Getting Started
 
 ### Prerequisites
@@ -41,7 +41,7 @@ No additional installation to run UVSim
 ```git clone <repo-url>```
 
 replace <repo-url> with teh actual URL that you are cloning
-___
+
 ## Running UVSim
 
 ### Windows:
@@ -59,7 +59,7 @@ replace project-directory with the actual project directory name
 - Run UVSIM
 
 ```python main.py```
-___
+
 ### Linux:
 
 - Open Terminal
@@ -75,7 +75,6 @@ replace project-directory with the actual project directory name
 - Run UVSIM
 
 ```python main.py```
-___
 
 ### macOS:
 
@@ -92,7 +91,6 @@ replace project-directory with the actual project directory name
 - Run UVSIM
 
 ```python main.py```
-___
 
 ## BasicML Program Format
 
@@ -111,7 +109,7 @@ ___
 - uv_sim.py: Class UVSim and functionalities
 - instruction.py: Functions for BasicML instruction
 - utils.py: (Optional) Helper function if needed
-___
+
 ## UseCase:
 - Understand Machine Language
 - Learn Computer Architecture
