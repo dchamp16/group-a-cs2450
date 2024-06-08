@@ -11,39 +11,90 @@
 - [Example Program](#example-program)
 - [Usage](#usage)
 - [File Structure](#file-structure)
-- [UseCase](#usecase)
+- [Use Case](#use-case)
 
 
 
 ### Overview
 
 UVSim is a Basic Machine Language Simulator is designed to teach student what machine language and computer architecture. its a simulator for simple virtual machine and execute a program written using BasicML. User can load and run BasicML it shows how machine instruction to manipulate memory and registers.
-
+___
 ### Features
 
 - Execute and Load BasicML.
 - Simulator for machine language control flow and I/O.
 - It shows the state of memory and does accumulate when execution.
-
+___
 ## Getting Started
 
 ### Prerequisites
 
-Python 3.6 or newer can be downloaded [Python](https://www.python.org/downloads/)
+- Python 3.6 or newer can be downloaded [Python](https://www.python.org/downloads/)
+- [Git](https://git-scm.com/downloads) to clone the repository
 
 ### Installation
 
 No additional installation to run UVSim
 
-### Running UVSim
+## Clone the Repository
 
-1. Clone or Download this repo to your local machine
-2. ``cd directory-name/group-a-cs2450``
-3. ``python main.py``
-4. follow the output TODO need to change
+```git clone <repo-url>```
 
-## BaiscML Program Format
-# TODO
+replace <repo-url> with teh actual URL that you are cloning
+___
+## Running UVSim
+
+### Windows:
+
+- Open Command line
+
+```Win + R``` type ```cmd``` and press Enter
+
+- Navigate Project Directory
+
+```cd <project-directory>```
+
+replace project-directory with the actual project directory name
+
+- Run UVSIM
+
+```python main.py```
+___
+### Linux:
+
+- Open Terminal
+
+```Ctrl + Alt + T``` to open terminal
+
+- Navigate Project Directory
+
+```cd <project-directory>```
+
+replace project-directory with the actual project directory name
+
+- Run UVSIM
+
+```python main.py```
+___
+
+### macOS:
+
+- Open Terminal
+
+```Cmd + Space``` type terminal and press Enter
+
+- Navigate Project Directory
+
+```cd <project-directory>```
+
+replace project-directory with the actual project directory name
+
+- Run UVSIM
+
+```python main.py```
+___
+
+## BasicML Program Format
 
 ### Example Program
 ```
@@ -60,7 +111,7 @@ No additional installation to run UVSim
 - uv_sim.py: Class UVSim and functionalities
 - instruction.py: Functions for BasicML instruction
 - utils.py: (Optional) Helper function if needed
-
+___
 ## UseCase:
 - Understand Machine Language
 - Learn Computer Architecture
@@ -74,19 +125,19 @@ No additional installation to run UVSim
 - Introduction to memory manipulations 
 
 
-## User Story:
+### User Story:
 As a computer science student. I would like to execute a BasicML Program on UVSim. this will help me to understand how machine language will interact with the computer memory
 
-## Actor:
+### Actor:
 Computer Science Student
 
-## System:
+### System:
 UVSim (BasicML Simulator (Basic Machine Language Simulator))
 
-## Goal:
+### Goal:
 Enable for student to initiate and load a BasicML programs to simulate the machine operation and learn how Computer Architecture works.
 
-## Precondition:
+### Precondition:
 Student/User has access to UVSim command line.
 
 ### Main Flow:
@@ -99,11 +150,10 @@ Student/User has access to UVSim command line.
 ### Post condition:
 BasicML will successfully executed, result of the execution will be output.s
 
-### Exception/Error
-#### File Not Found:
+### File Not Found:
 if file cant find or corrupt UVSim will notify the user
-#### Invalid Instruction:
+### Invalid Instruction:
 If User inputs the wrong instruction and error message or instruction will display.
-#### Division by Zero:
+### Division by Zero:
 if its divided by zero UVSim stop the program and output to student that its division by zero error.
 
