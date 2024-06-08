@@ -48,6 +48,7 @@ class TestUVSimInstructions(unittest.TestCase):
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 30)  # 20 + 10
         self.assertEqual(memory[12], 10)  # 20 - 10
+        
     def test_add_subtract_instruction_2(self):
         """Test addition and subtraction with second argument."""
         instructions = [1009, 1010, 2009, 3010, 2111, 2009, 3110, 2112, 4300]  # Setup, add, subtract, halt
@@ -78,7 +79,7 @@ class TestUVSimInstructions(unittest.TestCase):
         expected_memory = self.load_and_run(instructions, inputs=["0000"])
         memory = eval(expected_memory)
         self.assertEqual(memory[5], 0)
-        # Further assertions depending on branch outcomes
+
     def test_loop_implementation(self):
         """Test loop implementation to display how conditionals branches execute.
         This code will take an input from -9999-9999 and count up or down until it gets to 0."""
@@ -87,6 +88,89 @@ class TestUVSimInstructions(unittest.TestCase):
         memory = eval(expected_memory)
         self.assertEqual(memory[12], 100)
         self.assertEqual(memory[13], 0)
+        
+    def test_usecase_create_bridge_to_assembly(self):
+        """Test Use Case 3: Create a bridge to learning Assembly language"""
+        instructions = [1007, 2007, 2108, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0020"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[8], 20)
+        
+    def test_usecase_analyze_conditionals(self):
+        """Test Use Case 6: Analyze low level conditionals"""
+        instructions = [1007, 2007, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0010"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[7], 10)
+        
+    def test_usecase_learn_early_computing(self):
+        """Test Use Case 7: Learn the basics of early computing"""
+        instructions = [1007, 2007, 2111, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0025"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[11], 25)
+        
+    def test_usecase_introduction_to_memory_manipulations(self):
+        """Test Use Case 10: Introduction to memory manipulations"""
+        instructions = [1007, 2007, 2108, 1108, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0030"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[8], 30)
+
+    def test_conditional_branch_on_zero(self):
+        """Test branching if accumulator is zero."""
+        instructions = [1005, 2005, 3105, 4210, 1105, 4300, 1106, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0000"])
+        self.assertEqual(eval(expected_memory)[5], 0)
+
+    def test_conditional_branch_on_negative(self):
+        """Test branching if accumulator is negative."""
+        instructions = [1005, 2005, 3106, 4210, 1105, 4300, 1106, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0020", "0030"])
+        self.assertEqual(eval(expected_memory)[5], 20)
+
+    def test_memory_initialization(self):
+        """Test if memory is initialized correctly."""
+        self.assertEqual(self.sim.memory, [0] * 100)
+
+    def test_full_program_execution(self):
+        """Test a complete program execution."""
+        instructions = [
+            1007,
+            2007,
+            2108,
+            1108,
+            4300
+        ]
+        expected_memory = self.load_and_run(instructions, inputs=["0050"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[8], 50)
+
+    def test_conditional_branch_on_positive(self):
+        """Test branching if accumulator is positive."""
+        instructions = [1005, 2005, 3000, 4210, 1105, 4300, 1106, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["0020"])
+        self.assertEqual(eval(expected_memory)[5], 20)
+
+    def test_program_with_comments(self):
+        """Test a program that includes comments (ignoring comments)."""
+        instructions = [
+            1007,
+            2007,
+            2108,
+            4300
+        ]
+        expected_memory = self.load_and_run(instructions, inputs=["0015"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[8], 15)
+
+    def test_large_number_arithmetic(self):
+        """Test handling of arithmetic operations with large numbers."""
+        instructions = [1009, 1010, 2009, 3010, 2111, 2009, 3110, 2112, 4300]
+        expected_memory = self.load_and_run(instructions, inputs=["9999", "0001"])
+        memory = eval(expected_memory)
+        self.assertEqual(memory[11], 10000)
+        self.assertEqual(memory[12], 9998)
 
 if __name__ == '__main__':
     unittest.main()
