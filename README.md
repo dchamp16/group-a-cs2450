@@ -36,7 +36,7 @@ UVSim is a Basic Machine Language Simulator is designed to teach student what ma
 
 No additional installation to run UVSim
 
-## Clone the Repository
+### Clone the Repository
 
 ```git clone <repo-url>```
 
