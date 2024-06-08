@@ -61,19 +61,10 @@ class UVSim:
         else:
             print(f"Invalid opcode: {opcode}")
 
-    # def run(self):
-    #     while True:
-    #         instruction = self.fetch()
-    #         opcode, operand = self.decode(instruction)
-    #         print(f"Fetched instruction: {instruction}")
-    #         print(f"Decoded to opcode: {opcode}, operand: {operand}")
-    #         self.execute(opcode, operand)
-    # self.display_memory() # optional to display memory state
-
     def run(self):
         while self.running:
             instruction = self.fetch()
-            if instruction is None:  # Properly handle None before decoding
+            if instruction is None:
                 print("No more instructions or an error occurred.")
                 break
             opcode, operand = self.decode(instruction)
