@@ -126,6 +126,8 @@ replace project-directory with the actual project directory name
 ### User Story:
 As a computer science student. I would like to execute a BasicML Program on UVSim. this will help me to understand how machine language will interact with the computer memory
 
+As a computer science teacher I want to teach my students about machine language and computer architecture so that I can fulfill the requierments of my job and help my students learn a valuable skill. 
+
 ### Actor:
 Computer Science Student
 
