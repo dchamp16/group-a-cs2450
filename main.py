@@ -1,6 +1,7 @@
 import uv_sim
 import utils
 
+
 def main():
     print("Enter the path to BasicML program file:")
     file_path = input()
@@ -14,6 +15,7 @@ def main():
     sim.load_program(program)
 
     sim.run()
+
 
 if __name__ == "__main__":
     main()
