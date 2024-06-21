@@ -31,66 +31,142 @@ UVSim is a Basic Machine Language Simulator is designed to teach student what ma
 
 - Python 3.6 or newer can be downloaded [Python](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads) to clone the repository
+- Flask: Install using the instructions below
 
 ### Installation
 
-No additional installation to run UVSim
+1. Clone the Repository:
 
-### Clone the Repository
+    ```bash
+    git clone <repo-url>
+    ```
 
-```git clone <repo-url>```
+    Replace `<repo-url>` with the actual URL of the repository you are cloning.
 
-replace <repo-url> with teh actual URL that you are cloning
+2. Navigate to the Project Directory:
+
+    ```bash
+    cd <project-directory>
+    ```
+
+    Replace `<project-directory>` with the actual project directory name.
+
+3. Create a Virtual Environment:
+
+    ```bash
+    python -m venv venv
+    ```
+
+4. Activate the Virtual Environment:
+
+    - **Windows**:
+
+        ```bash
+        venv\Scripts\activate
+        ```
+
+    - **Linux/macOS**:
+
+        ```bash
+        source venv/bin/activate
+        ```
+
+5. Install Dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+    Ensure `Flask` is listed in your `requirements.txt` file. If it is not, you can manually install Flask:
+
+    ```bash
+    pip install flask
+    ```
 
 ## Running UVSim
 
 ### Windows:
 
-- Open Command line
+- Open Command Line:
 
-```Win + R``` type ```cmd``` and press Enter
+    Press `Win + R`, type `cmd`, and press Enter.
 
-- Navigate Project Directory
+- Navigate to Project Directory:
 
-```cd <project-directory>```
+    ```bash
+    cd <project-directory>
+    ```
 
-replace project-directory with the actual project directory name
+    Replace `<project-directory>` with the actual project directory name.
 
-- Run UVSIM
+- Activate the Virtual Environment:
 
-```python main.py```
+    ```bash
+    venv\Scripts\activate
+    ```
+
+- Run UVSim:
+
+    ```bash
+    python app.py
+    ```
+
 ___
+
 ### Linux:
 
-- Open Terminal
+- Open Terminal:
 
-```Ctrl + Alt + T``` to open terminal
+    Press `Ctrl + Alt + T` to open the terminal.
 
-- Navigate Project Directory
+- Navigate to Project Directory:
 
-```cd <project-directory>```
+    ```bash
+    cd <project-directory>
+    ```
 
-replace project-directory with the actual project directory name
+    Replace `<project-directory>` with the actual project directory name.
 
-- Run UVSIM
+- Activate the Virtual Environment:
 
-```python main.py```
+    ```bash
+    source venv/bin/activate
+    ```
+
+- Run UVSim:
+
+    ```bash
+    python app.py
+    ```
+
 ___
+
 ### macOS:
 
-- Open Terminal
+- Open Terminal:
 
-```Cmd + Space``` type terminal and press Enter
+    Press `Cmd + Space`, type `terminal`, and press Enter.
 
-- Navigate Project Directory
+- Navigate to Project Directory:
 
-```cd <project-directory>```
+    ```bash
+    cd <project-directory>
+    ```
 
-replace project-directory with the actual project directory name
+    Replace `<project-directory>` with the actual project directory name.
 
-- Run UVSIM
+- Activate the Virtual Environment:
 
-```python main.py```
+    ```bash
+    source venv/bin/activate
+    ```
+
+- Run UVSim:
+
+    ```bash
+    python app.py
+    ```
+Once the application is running, open your web browser and go to
 
 ## BasicML Program Format
 
@@ -104,11 +180,33 @@ replace project-directory with the actual project directory name
 +4300  # Halt execution
 ```
 
-### File Structure
-- main.py: Initialize and starts UVSim
-- uv_sim.py: Class UVSim and functionalities
-- instruction.py: Functions for BasicML instruction
-- utils.py: (Optional) Helper function if needed
+## File Structure
+
+```plaintext
+group-a-cs2450/
+├── env-group-a/                  # Virtual environment for the project
+├── templates/
+│   └── index.html               # HTML template for the Flask web interface
+├── uvsim/
+│   ├── main.py                  # Script to initialize and start UVSim from the command line
+│   ├── Test1.txt                # Sample BasicML program for testing
+│   ├── Test2.txt                # Sample BasicML program for testing
+│   ├── Test3.txt                # Sample BasicML program for testing
+│   ├── Test4.txt                # Sample BasicML program for testing
+│   ├── test_program.txt         # Another sample BasicML program for testing
+│   └── test_uv_sim.py           # Unit tests for UVSim
+├── .gitignore                   # Git ignore file for excluding files from the repository
+├── .Rhistory                    # R history file (if applicable, otherwise remove)
+├── app.py                       # Main Flask application for the web interface
+├── cpu.py                       # CPU class handling execution of BasicML instructions
+├── memory.py                    # Memory class for managing the UVSim memory
+├── README.md                    # Project README file
+├── utils.py                     # Utility functions for loading programs
+├── uv_sim.py                    # UVSim class managing the overall simulation
+├── External Libraries/           # (Optional) Directory for external libraries
+└── Scratches and Consoles/       # (Optional) Directory for scratch files and console outputs
+```
+
 
 ## UseCase:
 - Understand Machine Language

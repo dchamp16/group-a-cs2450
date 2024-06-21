@@ -1,5 +1,7 @@
 # peter env
-env_group_a/
+env-group-a
+env_group_a
 Lib/
 Scripts/
 include/
+bin/
