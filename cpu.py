@@ -1,5 +1,6 @@
 from memory import Memory
 
+
 class CPU:
     def __init__(self, memory):
         self.memory = memory
@@ -17,14 +18,12 @@ class CPU:
         print("Program loaded into memory:", self.memory)  # Debug statement
 
     def run(self):
-        self.running = True
-        while self.running:
+        while self.running and not self.waiting_for_input:
             instruction = self.fetch()
-            if instruction is None:
-                break
             opcode, operand = self.decode(instruction)
-            print(f"Executing instruction: {instruction}, Opcode: {opcode}, Operand: {operand}")  # Debug statement
             self.execute(opcode, operand)
+        if self.waiting_for_input:
+            print("Execution paused for input.")
 
     def fetch(self):
         if self.instruction_counter >= len(self.memory):
@@ -32,6 +31,7 @@ class CPU:
             return None
         instruction = self.memory[self.instruction_counter]
         self.instruction_counter += 1
+        print(f"Fetching instruction at index {self.instruction_counter - 1}: {instruction}")
         return instruction
 
     def decode(self, instruction):
@@ -54,11 +54,22 @@ class CPU:
             42: self.branchzero,
             43: self.halt
         }
+
+        # Log the operation about to be executed
+        print(f"Executing opcode: {opcode}, operand: {operand}")
+
+        # Retrieve the function associated with the opcode
         func = operations.get(opcode)
+
+        # Check if the function exists in the dictionary
         if func:
             func(operand)
+        else:
+            # Log an error if the opcode does not correspond to a valid operation
+            print(f"Error: Opcode {opcode} is not valid or not implemented.")
 
     def read(self, operand):
+        print(f"Setting up for input at location {operand}")
         self.waiting_for_input = True
         self.input_operand = operand
 
@@ -73,6 +84,7 @@ class CPU:
 
     def add(self, operand):
         self.accumulator += self.memory[operand]
+        print(f"Accumulator after addition: {self.accumulator}")
 
     def subtract(self, operand):
         self.accumulator -= self.memory[operand]
@@ -97,11 +109,15 @@ class CPU:
             self.instruction_counter = operand
 
     def halt(self, operand):
+        print("Halt command executed - stopping execution")
         self.running = False
+        print(f"Running status after halt: {self.running}")  # Check if it sets correctly
 
     def continue_execution(self, value):
+        print(f"Received input: {value} for location {self.input_operand}")
         self.memory[self.input_operand] = value
         self.waiting_for_input = False
+        print(f"Resuming execution, next instruction at index {self.instruction_counter}")
         self.run()
 
     def display_memory(self):
