@@ -108,7 +108,7 @@ UVSim is a Basic Machine Language Simulator is designed to teach student what ma
 - Run UVSim:
 
     ```bash
-    python app.py
+    python3 app.py
     ```
 
 ___
@@ -136,7 +136,7 @@ ___
 - Run UVSim:
 
     ```bash
-    python app.py
+    python3 app.py
     ```
 
 ___
@@ -164,7 +164,7 @@ ___
 - Run UVSim:
 
     ```bash
-    python app.py
+    python3 app.py
     ```
 Once the application is running, open your web browser and go to
 
