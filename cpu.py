@@ -6,29 +6,35 @@ class CPU:
         self.accumulator = 0
         self.instruction_counter = 0
         self.running = True
-        self.output_log = []
+        self.waiting_for_input = False
+        self.input_operand = None
 
     def load_program(self, program):
         if len(program) > len(self.memory):
-            print("Program size exceeds memory capacity")
-            return False
-        for index, instruction in enumerate(program):
-            self.memory[index] = instruction
-        print(f"Program loaded: {self.memory}")
-        return True
+            raise ValueError("Program size exceeds memory capacity")
+        self.memory[:len(program)] = program
+        self.instruction_counter = 0
+        print("Program loaded into memory:", self.memory)  # Debug statement
+
+    def run(self):
+        self.running = True
+        while self.running:
+            instruction = self.fetch()
+            if instruction is None:
+                break
+            opcode, operand = self.decode(instruction)
+            print(f"Executing instruction: {instruction}, Opcode: {opcode}, Operand: {operand}")  # Debug statement
+            self.execute(opcode, operand)
 
     def fetch(self):
         if self.instruction_counter >= len(self.memory):
-            print("Instruction counter out of memory bounds")
-            self.halt()
+            self.running = False
             return None
         instruction = self.memory[self.instruction_counter]
         self.instruction_counter += 1
         return instruction
 
     def decode(self, instruction):
-        if instruction is None:
-            return None, None
         opcode = instruction // 100
         operand = instruction % 100
         return opcode, operand
@@ -50,30 +56,14 @@ class CPU:
         }
         func = operations.get(opcode)
         if func:
-            if opcode == 43:
-                func()
-            else:
-                func(operand)
-        else:
-            print(f"Invalid opcode: {opcode}")
-
-    def run(self):
-        while self.running:
-            instruction = self.fetch()
-            if instruction is None:
-                print("No more instructions or an error occurred.")
-                break
-            opcode, operand = self.decode(instruction)
-            self.execute(opcode, operand)
+            func(operand)
 
     def read(self, operand):
-        # Indicate that the next step should wait for user input
         self.waiting_for_input = True
         self.input_operand = operand
 
     def write(self, operand):
-        message = f"Value at memory location {operand}: {self.memory[operand]}"
-        self.output_log.append(message)
+        print(f"Memory[{operand}]: {self.memory[operand]}")
 
     def load(self, operand):
         self.accumulator = self.memory[operand]
@@ -89,33 +79,30 @@ class CPU:
 
     def divide(self, operand):
         if self.memory[operand] == 0:
-            print("Cannot divide by zero")
-            self.halt()
-        else:
-            self.accumulator //= self.memory[operand]
+            raise ZeroDivisionError("Cannot divide by zero")
+        self.accumulator //= self.memory[operand]
 
     def multiply(self, operand):
         self.accumulator *= self.memory[operand]
 
     def branch(self, operand):
-        print(f"Branching to instruction {operand}")
         self.instruction_counter = operand
 
     def branchneg(self, operand):
         if self.accumulator < 0:
-            print(f"Branching to {operand} because accumulator is negative")
             self.instruction_counter = operand
 
     def branchzero(self, operand):
         if self.accumulator == 0:
-            print(f"Branching to {operand} because accumulator is zero")
             self.instruction_counter = operand
 
-    def halt(self):
-        print("Program halted.")
-        # exit()
+    def halt(self, operand):
         self.running = False
 
+    def continue_execution(self, value):
+        self.memory[self.input_operand] = value
+        self.waiting_for_input = False
+        self.run()
+
     def display_memory(self):
-        # Create a string representation of the memory array
-        return '[' + ', '.join(str(mem) for mem in self.memory) + ']'
+        return str(self.memory)

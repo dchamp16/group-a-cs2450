@@ -2,29 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UVSim Simulator</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.1);
+        }
+        .form-control, .btn {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>UVSim Program Loader</h1>
-    {% if memory %}
+    <h1 class="text-center mb-4">UVSim Program Loader</h1>
+
     <h3>Memory State:</h3>
-    <p>{{ memory }}</p>
-    {% endif %}
-    {% if error %}
-    <div class="alert alert-danger">
-        {{ error }}
-    </div>
-    {% endif %}
+    <pre>{{ memory }}</pre>  <!-- Using preformatted text for memory display -->
+
+    {% if not input_required %}
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="file">Upload BasicML Program:</label>
             <input type="file" class="form-control-file" id="file" name="file">
+            <button type="submit" class="btn btn-primary btn-block">Load and Run</button>
         </div>
-        <button type="submit" class="btn btn-primary">Load and Run</button>
     </form>
+    {% else %}
+    <form method="post">
+        <div class="form-group">
+            <label>Enter a value for memory location {{ operand }}:</label>
+            <input type="text" class="form-control" name="user_input" required>
+            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+        </div>
+    </form>
+    {% endif %}
 </div>
+
+<!-- Bootstrap and jQuery scripts for responsive behavior and additional features -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

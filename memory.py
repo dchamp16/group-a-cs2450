@@ -1,5 +1,5 @@
 class Memory:
-    def __init__(self, size=100):
+    def __init__(self, size):
         self.cells = [0] * size
 
     def __getitem__(self, index):
@@ -12,4 +12,4 @@ class Memory:
         return len(self.cells)
 
     def __str__(self):
-        return '[' + ', '.join(str(mem) for mem in self.cells) + ']'
+        return str(self.cells)
