@@ -27,22 +27,24 @@
     <h1 class="text-center mb-4">UVSim Program Loader</h1>
 
     <h3>Memory State:</h3>
-    <pre>{{ memory }}</pre>  <!-- Using preformatted text for memory display -->
-
-    {% if not input_required %}
+    <pre>{{ memory }}</pre>
+    {% if message %}
+    <div class="alert alert-info">{{ message }}</div>
+    {% endif %}
+    {% if input_required %}
+    <form method="post">
+        <div class="form-group">
+            <label>Enter value for memory location {{ operand }} ({{ input_prompt }} input):</label>
+            <input type="text" class="form-control" name="user_input" required>
+            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+        </div>
+    </form>
+    {% else %}
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="file">Upload BasicML Program:</label>
             <input type="file" class="form-control-file" id="file" name="file">
             <button type="submit" class="btn btn-primary btn-block">Load and Run</button>
-        </div>
-    </form>
-    {% else %}
-    <form method="post">
-        <div class="form-group">
-            <label>Enter a value for memory location {{ operand }}:</label>
-            <input type="text" class="form-control" name="user_input" required>
-            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
         </div>
     </form>
     {% endif %}
