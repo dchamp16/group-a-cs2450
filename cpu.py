@@ -6,6 +6,7 @@ class CPU:
         self.accumulator = 0
         self.instruction_counter = 0
         self.running = True
+        self.output_log = []
 
     def load_program(self, program):
         if len(program) > len(self.memory):
@@ -66,16 +67,13 @@ class CPU:
             self.execute(opcode, operand)
 
     def read(self, operand):
-        while True:
-            value = input("Enter a 4-digit value: ")
-            if value.isdigit() and len(value) == 4:
-                self.memory[operand] = int(value)
-                break
-            else:
-                print("Invalid input. Enter a 4-digit number.")
+        # Indicate that the next step should wait for user input
+        self.waiting_for_input = True
+        self.input_operand = operand
 
     def write(self, operand):
-        print(f"Value at memory location {operand}: {self.memory[operand]}")
+        message = f"Value at memory location {operand}: {self.memory[operand]}"
+        self.output_log.append(message)
 
     def load(self, operand):
         self.accumulator = self.memory[operand]
