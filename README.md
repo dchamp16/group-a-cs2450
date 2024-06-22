@@ -51,13 +51,13 @@ UVSim is a Basic Machine Language Simulator is designed to teach student what ma
 
     Replace `<project-directory>` with the actual project directory name.
 
-3. Create a Virtual Environment:
+3. (Optional) Create a Virtual Environment:
 
     ```bash
     python -m venv venv
     ```
 
-4. Activate the Virtual Environment:
+4. (Optional) Activate the Virtual Environment:
 
     - **Windows**:
 
@@ -75,12 +75,6 @@ UVSim is a Basic Machine Language Simulator is designed to teach student what ma
 
     ```bash
     pip install -r requirements.txt
-    ```
-
-    Ensure `Flask` is listed in your `requirements.txt` file. If it is not, you can manually install Flask:
-
-    ```bash
-    pip install flask
     ```
 
 ## Running UVSim
@@ -166,7 +160,8 @@ ___
     ```bash
     python app.py
     ```
-Once the application is running, open your web browser and go to
+
+Once the application is running, open your web browser and go to 
 
 ## BasicML Program Format
 
