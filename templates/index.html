@@ -31,6 +31,9 @@
     {% if message %}
     <div class="alert alert-info">{{ message }}</div>
     {% endif %}
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
     {% if input_required %}
     <form method="post">
         <div class="form-group">
@@ -42,8 +45,8 @@
     {% else %}
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="file">Upload BasicML Program:</label>
-            <input type="file" class="form-control-file" id="file" name="file">
+            <label for="file">Upload BasicML Programs:</label>
+            <input type="file" class="form-control-file" id="file" name="file" multiple>
             <button type="submit" class="btn btn-primary btn-block">Load and Run</button>
         </div>
     </form>

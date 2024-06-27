@@ -1,3 +1,5 @@
+from memory import Memory
+
 class CPU:
     def __init__(self, memory):
         self.memory = memory
@@ -12,7 +14,7 @@ class CPU:
             raise ValueError("Program size exceeds memory capacity")
         self.memory[:len(program)] = program
         self.instruction_counter = 0
-        print("Program loaded into memory:", self.memory)  # Debug statement
+        print("Program loaded into memory:", self.memory)
 
     def run(self):
         while self.running:
@@ -91,14 +93,18 @@ class CPU:
 
     def subtract(self, operand):
         self.accumulator -= self.memory[operand]
+        print(f"Accumulator after subtraction: {self.accumulator}")
 
     def divide(self, operand):
         if self.memory[operand] == 0:
             raise ZeroDivisionError("Cannot divide by zero")
         self.accumulator //= self.memory[operand]
+        print(f"Accumulator after division: {self.accumulator}")
+
 
     def multiply(self, operand):
         self.accumulator *= self.memory[operand]
+        print(f"Accumulator after multiplication: {self.accumulator}")
 
     def branch(self, operand):
         self.instruction_counter = operand
@@ -114,7 +120,6 @@ class CPU:
     def halt(self):
         print("Halt command executed - stopping execution")
         self.running = False
-        print(f"Running status after halt: {self.running}")  # Check if it sets correctly
 
     def continue_execution(self, value):
         print(f"Received input: {value} for location {self.input_operand}")
@@ -125,3 +130,4 @@ class CPU:
 
     def display_memory(self):
         return str(self.memory)
+

@@ -132,7 +132,8 @@ ___
     ```bash
     python3 app.py
     ```
-
+- Browser: Explorer, Mozilla, Safari, Chrome  
+  [Local Server](http://localhost:5000/)
 ___
 
 ### macOS:
