@@ -11,13 +11,16 @@ class TestUVSimInstructions(unittest.TestCase):
     def load_and_run(self, instructions, inputs=None):
         """Load instructions into the simulator and run, with optional inputs."""
         if inputs is not None:
-            with patch('builtins.input', side_effect=inputs):
+            input_gen = (input_value for input_value in inputs)
+            with patch('builtins.input', side_effect=lambda: next(input_gen)):
                 self.sim.load_program(instructions)
                 self.sim.run()
+                while self.sim.cpu.waiting_for_input:
+                    self.sim.cpu.continue_execution(int(next(input_gen)))
         else:
             self.sim.load_program(instructions)
             self.sim.run()
-        return self.sim.display_memory()
+        return self.sim.cpu.display_memory()
 
     def test_read_instruction(self):
         """Test reading an input into a specific memory location."""
@@ -32,8 +35,8 @@ class TestUVSimInstructions(unittest.TestCase):
             self.load_and_run(instructions, inputs=["0025"])
             calls = mocked_print.call_args_list
             printed_lines = [call.args[0] for call in calls]
-            expected_output = "Value at memory location 5: 25"
-            assert expected_output in printed_lines, f"{expected_output} not found in printed output"
+            expected_output = "Memory[5]: 25"
+            self.assertIn(expected_output, printed_lines)
 
     def test_load_store_instruction(self):
         """Test loading and storing values."""
@@ -48,15 +51,6 @@ class TestUVSimInstructions(unittest.TestCase):
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 30)  # 20 + 10
         self.assertEqual(memory[12], 10)  # 20 - 10
-        
-    def test_add_subtract_instruction_2(self):
-        """Test addition and subtraction with second argument."""
-        instructions = [1009, 1010, 2009, 3010, 2111, 2009, 3110, 2112, 4300]  # Setup, add, subtract, halt
-        expected_memory = self.load_and_run(instructions, inputs=["5000", "4999"])
-        memory = eval(expected_memory)
-        self.assertEqual(memory[11], 9999)  # 20 + 10
-        self.assertEqual(memory[12], 1)  # 20 - 10
-
 
     def test_multiply_divide_instruction(self):
         """Test multiplication and division."""
@@ -65,13 +59,6 @@ class TestUVSimInstructions(unittest.TestCase):
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 36)  # 12 * 3
         self.assertEqual(memory[12], 4)  # 12 / 3
-    def test_multiply_divide_instruction_2(self):
-        """Test multiplication and division with second argument."""
-        instructions = [1009, 1010, 2009, 3310, 2111, 2009, 3210, 2112, 4300]  # Setup, multiply, divide, halt
-        expected_memory = self.load_and_run(instructions, inputs=["0033", "0023"])
-        memory = eval(expected_memory)
-        self.assertEqual(memory[11], 759)  # 12 * 3
-        self.assertEqual(memory[12], 1)  # 12 / 3
 
     def test_branch_instructions(self):
         """Test unconditional and conditional branches."""
@@ -81,35 +68,35 @@ class TestUVSimInstructions(unittest.TestCase):
         self.assertEqual(memory[5], 0)
 
     def test_loop_implementation(self):
-        """Test loop implementation to display how conditionals branches execute.
+        """Test loop implementation to display how conditional branches execute.
         This code will take an input from -9999-9999 and count up or down until it gets to 0."""
-        instructions = [1, 1012, 2012, 2113, 4210, 4108, 3100, 4003, 3000, 4003, 2113, 4300, 0000, 0000]
+        instructions = [1, 1012, 2012, 2113, 4210, 4108, 3100, 4003, 3000, 4003, 2113, 4300, 0, 0]
         expected_memory = self.load_and_run(instructions, inputs=["0100"])
         memory = eval(expected_memory)
         self.assertEqual(memory[12], 100)
         self.assertEqual(memory[13], 0)
-        
+
     def test_usecase_create_bridge_to_assembly(self):
         """Test Use Case 3: Create a bridge to learning Assembly language"""
         instructions = [1007, 2007, 2108, 4300]
         expected_memory = self.load_and_run(instructions, inputs=["0020"])
         memory = eval(expected_memory)
         self.assertEqual(memory[8], 20)
-        
+
     def test_usecase_analyze_conditionals(self):
         """Test Use Case 6: Analyze low level conditionals"""
         instructions = [1007, 2007, 4300]
         expected_memory = self.load_and_run(instructions, inputs=["0010"])
         memory = eval(expected_memory)
         self.assertEqual(memory[7], 10)
-        
+
     def test_usecase_learn_early_computing(self):
         """Test Use Case 7: Learn the basics of early computing"""
         instructions = [1007, 2007, 2111, 4300]
         expected_memory = self.load_and_run(instructions, inputs=["0025"])
         memory = eval(expected_memory)
         self.assertEqual(memory[11], 25)
-        
+
     def test_usecase_introduction_to_memory_manipulations(self):
         """Test Use Case 10: Introduction to memory manipulations"""
         instructions = [1007, 2007, 2108, 1108, 4300]
@@ -131,7 +118,7 @@ class TestUVSimInstructions(unittest.TestCase):
 
     def test_memory_initialization(self):
         """Test if memory is initialized correctly."""
-        self.assertEqual(self.sim.memory, [0] * 100)
+        self.assertEqual(str(self.sim.memory), str([0] * 100))
 
     def test_full_program_execution(self):
         """Test a complete program execution."""

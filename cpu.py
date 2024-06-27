@@ -1,6 +1,3 @@
-from memory import Memory
-
-
 class CPU:
     def __init__(self, memory):
         self.memory = memory
@@ -18,10 +15,15 @@ class CPU:
         print("Program loaded into memory:", self.memory)  # Debug statement
 
     def run(self):
-        while self.running and not self.waiting_for_input:
-            instruction = self.fetch()
-            opcode, operand = self.decode(instruction)
-            self.execute(opcode, operand)
+        while self.running:
+            if not self.waiting_for_input:
+                instruction = self.fetch()
+                if instruction is not None:
+                    opcode, operand = self.decode(instruction)
+                    self.execute(opcode, operand)
+            else:
+                print("Waiting for input...")
+                break
         if self.waiting_for_input:
             print("Execution paused for input.")
 
@@ -37,36 +39,37 @@ class CPU:
     def decode(self, instruction):
         opcode = instruction // 100
         operand = instruction % 100
+        print(f"Decoded instruction: opcode {opcode}, operand {operand}")
         return opcode, operand
 
     def execute(self, opcode, operand):
-        operations = {
-            10: self.read,
-            11: self.write,
-            20: self.load,
-            21: self.store,
-            30: self.add,
-            31: self.subtract,
-            32: self.divide,
-            33: self.multiply,
-            40: self.branch,
-            41: self.branchneg,
-            42: self.branchzero,
-            43: self.halt
-        }
-
-        # Log the operation about to be executed
-        print(f"Executing opcode: {opcode}, operand: {operand}")
-
-        # Retrieve the function associated with the opcode
-        func = operations.get(opcode)
-
-        # Check if the function exists in the dictionary
-        if func:
-            func(operand)
+        print(f"Executing opcode {opcode} with operand {operand}")
+        if opcode == 10:
+            self.read(operand)
+        elif opcode == 11:
+            self.write(operand)
+        elif opcode == 20:
+            self.load(operand)
+        elif opcode == 21:
+            self.store(operand)
+        elif opcode == 30:
+            self.add(operand)
+        elif opcode == 31:
+            self.subtract(operand)
+        elif opcode == 32:
+            self.divide(operand)
+        elif opcode == 33:
+            self.multiply(operand)
+        elif opcode == 40:
+            self.branch(operand)
+        elif opcode == 41:
+            self.branchneg(operand)
+        elif opcode == 42:
+            self.branchzero(operand)
+        elif opcode == 43:
+            self.halt()
         else:
-            # Log an error if the opcode does not correspond to a valid operation
-            print(f"Error: Opcode {opcode} is not valid or not implemented.")
+            print(f"Invalid opcode: {opcode}")
 
     def read(self, operand):
         print(f"Setting up for input at location {operand}")
@@ -108,7 +111,7 @@ class CPU:
         if self.accumulator == 0:
             self.instruction_counter = operand
 
-    def halt(self, operand):
+    def halt(self):
         print("Halt command executed - stopping execution")
         self.running = False
         print(f"Running status after halt: {self.running}")  # Check if it sets correctly

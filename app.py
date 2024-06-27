@@ -8,8 +8,8 @@ uv_sim = UVSim()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global uv_sim  #
-    message = ''  #
+    global uv_sim
+    message = ''
     input_prompt = ''
     if request.method == 'POST':
         if 'file' in request.files:
@@ -37,7 +37,8 @@ def index():
     input_required = uv_sim.cpu.waiting_for_input
     operand = uv_sim.cpu.input_operand if input_required else None
     if input_required:
-        input_prompt = 'first' if operand == 90 else 'second'
+        input_prompt = 'Enter input for operand ' + str(operand)
+
     return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt)
 
 if __name__ == '__main__':
