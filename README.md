@@ -11,7 +11,7 @@
 - [Example Program](#example-program)
 - [Usage](#usage)
 - [File Structure](#file-structure)
-- [Use Case](#use-case)
+- [UseCase](#UseCases)
 
 
 
@@ -206,80 +206,7 @@ group-a-cs2450/
 
 ## UseCases:
 
-Use Case 1
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Load a BasicML program file into UVSim
-
-Use Case 2
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Execute a BasicML program and follow instruction sequences
-
-Use Case 3
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Display the current state of UVSim memory during program execution
-
-Use Case 4
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Input data from the keyboard into memory using the READ operation (10##)
-
-Use Case 5
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Output data from memory to the screen using the WRITE operation (11##)
-
-Use Case 6
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Transfer data from memory to the accumulator using the LOAD operation (20##)
-
-Use Case 7
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Transfer data from the accumulator to memory using the STORE operation (21##)
-
-Use Case 8
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Perform addition operation using the ADD instruction (30##)
-
-Use Case 9
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Perform subtraction operation using the SUBTRACT instruction (31##)
-
-Use Case 10
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Perform multiplication operation using the MULTIPLY instruction (33##)
-
-Use Case 11
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Perform division operation using the DIVIDE instruction (32##)
-
-Use Case 12
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Execute a branch operation using the BRANCH instruction (40##)
-
-Use Case 13
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Execute a branch if negative operation using the BRANCHNEG instruction (41##)
-
-Use Case 14
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Execute a branch if zero operation using the BRANCHZERO instruction (42##)
-
-Use Case 15
-Actor: Computer Science Student
-System: UVSim (simulate machine language programs)
-Goal: Halt program execution using the HALT instruction (43##)
+For detailed use cases, please refer to the [Use Cases Documentation](USE_CASES.md).
 
 
 ### User Story:
