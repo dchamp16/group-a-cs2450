@@ -8,13 +8,6 @@ app.secret_key = os.urandom(24)  # Replace with a randomly generated key
 # Initialize the simulator globally
 uv_sim = UVSim()
 
-# Register the custom filter
-@app.template_filter('enumerate')
-def do_enumerate(iterable):
-    return enumerate(iterable)
-
-app.jinja_env.filters['enumerate'] = do_enumerate
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global uv_sim
@@ -74,7 +67,7 @@ def index():
             input_prompt = 'first'
         elif session.get('input_step') == 2:
             input_prompt = 'second'
-    return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt)
+    return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate)
 
 if __name__ == '__main__':
     app.run(debug=True)
