@@ -87,9 +87,11 @@ class CPU:
 
     def load(self, operand):
         self.accumulator = self.memory[operand]
+        print(f"Accumulator loaded with value: {self.accumulator}")
 
     def store(self, operand):
         self.memory[operand] = self.accumulator
+        print(f"Stored accumulator value {self.accumulator} at memory location {operand}")
 
     def add(self, operand):
         self.accumulator += self.memory[operand]
@@ -104,7 +106,6 @@ class CPU:
             raise ZeroDivisionError("Cannot divide by zero")
         self.accumulator //= self.memory[operand]
         print(f"Accumulator after division: {self.accumulator}")
-
 
 
     def multiply(self, operand):
