@@ -180,27 +180,37 @@ Once the application is running, open your web browser and go to
 
 ```plaintext
 group-a-cs2450/
-├── env-group-a/                  # Virtual environment for the project
+├── env_group_a/                  # Virtual environment for the project
+├── static/
+│   ├── css/
+│   │   └── style.css            # CSS file for styling the Flask web interface
+│   └── js/
+│       └── script.js            # JavaScript file for additional functionality
 ├── templates/
 │   └── index.html               # HTML template for the Flask web interface
 ├── uvsim/
+│   ├── addition-test.txt        # Sample BasicML program for testing addition
+│   ├── division-test.txt        # Sample BasicML program for testing division
 │   ├── main.py                  # Script to initialize and start UVSim from the command line
+│   ├── multiplication-test.txt  # Sample BasicML program for testing multiplication
+│   ├── subtraction-test.txt     # Sample BasicML program for testing subtraction
 │   ├── Test1.txt                # Sample BasicML program for testing
 │   ├── Test2.txt                # Sample BasicML program for testing
 │   ├── Test3.txt                # Sample BasicML program for testing
 │   ├── Test4.txt                # Sample BasicML program for testing
-│   ├── test_program.txt         # Another sample BasicML program for testing
-│   └── test_uv_sim.py           # Unit tests for UVSim
+│   └── test_program.txt         # Another sample BasicML program for testing
+├── venv/                        # Virtual environment directory
 ├── .gitignore                   # Git ignore file for excluding files from the repository
 ├── .Rhistory                    # R history file (if applicable, otherwise remove)
 ├── app.py                       # Main Flask application for the web interface
 ├── cpu.py                       # CPU class handling execution of BasicML instructions
 ├── memory.py                    # Memory class for managing the UVSim memory
 ├── README.md                    # Project README file
+├── test_app.py                  # Unit tests for the Flask application
+├── test_uv_sim.py               # Unit tests for UVSim
+├── USE_CASES.md                 # Detailed use cases documentation
 ├── utils.py                     # Utility functions for loading programs
-├── uv_sim.py                    # UVSim class managing the overall simulation
-├── External Libraries/           # (Optional) Directory for external libraries
-└── Scratches and Consoles/       # (Optional) Directory for scratch files and console outputs
+└── uv_sim.py                    # UVSim class managing the overall simulation
 ```
 
 
