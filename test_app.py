@@ -89,19 +89,27 @@ class UVSimTestCase(unittest.TestCase):
     def test_division(self):
         # Program for successful division
         program = [2010, 3220, 2110, 4300]  # LOAD 10, DIV 20, STORE 10, HALT
-        self.memory[10] = 4
-        self.memory[20] = 2
+        self.cpu.memory[10] = 4
+        self.cpu.memory[20] = 2
         self.cpu.load_program(program)
         self.cpu.run()
-        self.assertEqual(self.memory[10], 2)  # Check successful division
+        self.assertEqual(self.cpu.memory[10], 2)  # Check successful division
+
+        # Manually reset CPU state
+        self.cpu.accumulator = 0
+        self.cpu.instruction_counter = 0
+        self.cpu.running = True
+        self.cpu.waiting_for_input = False
+        self.cpu.input_operand = None
+        self.cpu.memory[10] = 4
+        self.cpu.memory[20] = 0
 
         # Test for division by zero
         program = [2010, 3220, 4300]  # LOAD 10, DIV 20, HALT
-        self.memory[10] = 4
-        self.memory[20] = 0
         self.cpu.load_program(program)
         with self.assertRaises(ZeroDivisionError):
             self.cpu.run()
+
 
 if __name__ == '__main__':
     unittest.main()

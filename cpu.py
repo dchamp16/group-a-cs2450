@@ -45,6 +45,10 @@ class CPU:
         return opcode, operand
 
     def execute(self, opcode, operand):
+        if not (0 <= operand < len(self.memory)):
+            print(f"Invalid memory access at {operand}. Halting execution.")
+            self.halt()
+            return
         print(f"Executing opcode {opcode} with operand {operand}")
         if opcode == 10:
             self.read(operand)
@@ -100,6 +104,7 @@ class CPU:
             raise ZeroDivisionError("Cannot divide by zero")
         self.accumulator //= self.memory[operand]
         print(f"Accumulator after division: {self.accumulator}")
+
 
 
     def multiply(self, operand):
