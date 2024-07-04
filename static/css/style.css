@@ -31,6 +31,7 @@ body {
     box-shadow: var(--box-shadow);
     margin-bottom: 20px;
     transition: var(--transition);
+}
 
 .form-group {
     margin-bottom: 15px;
