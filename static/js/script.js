@@ -1,4 +1,4 @@
-// JavaScript to handle color scheme changes
+// JavaScript to handle color scheme changes and save content
 document.addEventListener("DOMContentLoaded", function() {
     const primaryColorInput = document.getElementById("primaryColor");
     const offColorInput = document.getElementById("offColor");
@@ -41,5 +41,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
         primaryColorInput.value = defaultPrimaryColor;
         offColorInput.value = defaultOffColor;
+    });
+
+    // Save content to a text file
+    document.getElementById("saveContent").addEventListener("click", function() {
+        const rows = document.querySelectorAll(".table-container table tbody tr");
+        let content = "";
+
+        rows.forEach(row => {
+            const index = row.cells[0].innerText;
+            const value = row.cells[1].innerText;
+            content += `index: ${index} value: ${value}\n`;
+        });
+
+        const blob = new Blob([content], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "content.txt";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     });
 });
