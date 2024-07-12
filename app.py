@@ -39,8 +39,9 @@ def index():
             return redirect(url_for('index'))
         elif 'user_input' in request.form:
             user_input = request.form['user_input']
-            if not user_input.isdigit() or len(user_input) != 4:
-                flash('Please enter a 4-digit integer.')
+            # Validate and process user input
+            if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) == 4 and -9999 <= int(user_input) <= 9999):
+                flash('Please enter a 4-digit integer (or negative 4-digit integer).')
                 return redirect(url_for('index'))
             uv_sim.cpu.continue_execution(int(user_input))
             print(f"Memory after input: {uv_sim.cpu.memory}")  # Debug log
