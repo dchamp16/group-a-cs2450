@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const defaultPrimaryColor = "#4C721D";
     const defaultOffColor = "#FFFFFF";
 
+    let previousValue = '';
+
     // Load saved colors from localStorage
     const savedPrimaryColor = localStorage.getItem("primaryColor") || defaultPrimaryColor;
     const savedOffColor = localStorage.getItem("offColor") || defaultOffColor;
@@ -41,6 +43,39 @@ document.addEventListener("DOMContentLoaded", function() {
 
         primaryColorInput.value = defaultPrimaryColor;
         offColorInput.value = defaultOffColor;
+    });
+
+    // Function to update memory slot with validation
+    window.updateMemory = function(location, instruction) {
+        const trimmedInstruction = instruction.trim();
+        if (/^-?\d{1,4}$/.test(trimmedInstruction)) {
+            fetch('/update_memory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({memory_location: location, instruction: parseInt(trimmedInstruction)}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        } else {
+            alert('Please enter a valid number between -9999 and 9999.');
+            document.querySelector(`td[data-location="${location}"]`).innerText = previousValue;
+        }
+    };
+
+    // Save the previous value when the cell is focused
+    document.querySelectorAll('td[contenteditable="true"]').forEach(cell => {
+        cell.addEventListener('focus', function() {
+            previousValue = this.innerText.trim();
+        });
     });
 
     // Save content to a text file

@@ -23,6 +23,7 @@ class CPU:
                 if instruction is not None:
                     opcode, operand = self.decode(instruction)
                     self.execute(opcode, operand)
+                    self.overflow_check()
             else:
                 print("Waiting for input...")
                 break
@@ -136,4 +137,11 @@ class CPU:
 
     def display_memory(self):
         return str(self.memory)
+    def overflow_check(self):
+        if self.accumulator > 9999:
+            self.accumulator = 9999
+
+        elif self.accumulator < -9999:
+            self.accumulator = -9999
+
 

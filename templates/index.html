@@ -46,7 +46,7 @@
             {% for i, instruction in enumerate(memory) %}
             <tr>
                 <td>{{ i }}</td>
-                <td>{{ instruction }}</td>
+                <td contenteditable="true" onblur="updateMemory({{ i }}, this.innerText.trim())" data-location="{{ i }}">{{ instruction }}</td>
             </tr>
             {% endfor %}
             </tbody>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from uv_sim import UVSim
 import os
 
@@ -39,8 +39,9 @@ def index():
             return redirect(url_for('index'))
         elif 'user_input' in request.form:
             user_input = request.form['user_input']
-            if not user_input.isdigit() or len(user_input) != 4:
-                flash('Please enter a 4-digit integer.')
+            if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) == 4 and -9999 <= int(
+                    user_input) <= 9999):
+                flash('Please enter a 4-digit integer (or negative 4-digit integer).')
                 return redirect(url_for('index'))
             uv_sim.cpu.continue_execution(int(user_input))
             print(f"Memory after input: {uv_sim.cpu.memory}")  # Debug log
@@ -68,6 +69,23 @@ def index():
         elif session.get('input_step') == 2:
             input_prompt = 'second'
     return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate)
+
+@app.route('/update_memory', methods=['POST'])
+def update_memory():
+    data = request.get_json()
+    memory_location = data.get('memory_location')
+    instruction = data.get('instruction')
+    if 0 <= memory_location < len(uv_sim.cpu.memory):
+        try:
+            instruction = int(instruction)
+            if -9999 <= instruction <= 9999:
+                uv_sim.cpu.memory[memory_location] = instruction
+                return jsonify({'success': True})
+            else:
+                return jsonify({'success': False, 'error': 'Instruction out of bounds (-9999 to 9999)'}), 400
+        except ValueError:
+            return jsonify({'success': False, 'error': 'Invalid instruction format'}), 400
+    return jsonify({'success': False, 'error': 'Invalid memory location'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
