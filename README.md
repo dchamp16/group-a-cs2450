@@ -252,4 +252,9 @@ if file cant find or corrupt UVSim will notify the user
 If User inputs the wrong instruction and error message or instruction will display.
 ### Division by Zero:
 if its divided by zero UVSim stop the program and output to student that its division by zero error.
-
+### Save Content:
+After running a programming to it's end you will be given the option to save content. This will save memory indexed from 0-99 and opposite of that your instructions.
+### Edit Instructions:
+When you load a program you have the ability to click and edit any memory instruction. Simply click and enter a positive or negative number 4 digits in length. Note: these change will only take affect if the program has not reached their position yet.
+### Overflow Handling: 
+When the accumulator is faced with overflow it will default to 9999 for large numbers and -9999 for small numbers.
