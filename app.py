@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Replace with a randomly generated key
 
 # Initialize the simulator globally
-uv_sim = UVSim()
+uv_sim = UVSim(memory_size=250)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

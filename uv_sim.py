@@ -2,7 +2,7 @@ from memory import Memory
 from cpu import CPU
 
 class UVSim:
-    def __init__(self, memory_size=100):
+    def __init__(self, memory_size=250):
         self.memory = [0] * memory_size
         self.cpu = CPU(self.memory)
 
