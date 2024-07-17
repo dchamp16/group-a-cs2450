@@ -11,28 +11,48 @@
 <div class="container my-5 p-4 shadow rounded">
     <h1 class="text-center mb-4">UVSim Program Loader</h1>
 
-    <div class="color-config mb-4 p-4 bg-light rounded shadow-sm">
-        <h5 class="mb-3">Customize Color Scheme</h5>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="primaryColor">Primary Interface Color:</label>
-                    <input type="color" id="primaryColor" name="primaryColor" class="form-control form-control-lg">
+    <!-- Button to trigger the modal -->
+    <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#colorModal">
+        Customize Color Scheme
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="colorModal" tabindex="-1" role="dialog" aria-labelledby="colorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="colorModalLabel">Customize Color Scheme</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="color-config p-4 bg-light rounded shadow-sm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="primaryColor">Primary Interface Color:</label>
+                                    <input type="color" id="primaryColor" name="primaryColor" class="form-control form-control-lg">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="offColor">Secondary Interface Color:</label>
+                                    <input type="color" id="offColor" name="offColor" class="form-control form-control-lg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button id="applyColors" class="btn btn-primary btn-lg">Apply Colors</button>
+                            <button id="resetColors" class="btn btn-danger btn-lg">Reset Colors</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="offColor">Secondary Interface Color:</label>
-                    <input type="color" id="offColor" name="offColor" class="form-control form-control-lg">
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-between mt-3">
-            <button id="applyColors" class="btn btn-primary btn-lg">Apply Colors</button>
-            <button id="resetColors" class="btn btn-danger btn-lg">Reset Colors</button>
         </div>
     </div>
 
+    <!-- Rest of your content -->
     <h3>Memory State:</h3>
     <div class="table-container mb-4">
         <table class="table table-hover table-bordered">
@@ -86,8 +106,6 @@
         </div>
     </form>
     {% endif %}
-
-
 </div>
 
 <!-- Bootstrap and jQuery scripts for responsive behavior and additional features -->
