@@ -85,9 +85,9 @@ class CPU:
         self.input_operand = operand
 
     def write(self, operand):
-        output = self.memory[operand]
-        print(f"Memory[{operand}]: {output}")
-        self.write_outputs.append(output)
+        value = self.memory[operand]
+        self.write_outputs.append(value)
+        print(f"WRITE: Memory[{operand}] = {value}") 
 
     def load(self, operand):
         self.accumulator = self.memory[operand]
