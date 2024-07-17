@@ -8,6 +8,7 @@ class CPU:
         self.running = True
         self.waiting_for_input = False
         self.input_operand = None
+        self.write_outputs = [] 
 
     def load_program(self, program):
         if len(program) > len(self.memory):
@@ -84,7 +85,9 @@ class CPU:
         self.input_operand = operand
 
     def write(self, operand):
-        print(f"Memory[{operand}]: {self.memory[operand]}")
+        output = self.memory[operand]
+        print(f"Memory[{operand}]: {output}")
+        self.write_outputs.append(output)
 
     def load(self, operand):
         self.accumulator = self.memory[operand]
@@ -137,10 +140,10 @@ class CPU:
 
     def display_memory(self):
         return str(self.memory)
+    
     def overflow_check(self):
         if self.accumulator > 9999:
             self.accumulator = 9999
-
         elif self.accumulator < -9999:
             self.accumulator = -9999
 

@@ -117,3 +117,11 @@ body {
     box-shadow: var(--box-shadow);
     transition: var(--transition);
 }
+
+.small-text {
+    font-size: 0.875rem;
+}
+
+.small-heading {
+    font-size: 1.25rem;
+}

@@ -68,7 +68,7 @@ def index():
             input_prompt = 'first'
         elif session.get('input_step') == 2:
             input_prompt = 'second'
-    return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate)
+    return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate, write_outputs=uv_sim.cpu.write_outputs)
 
 @app.route('/update_memory', methods=['POST'])
 def update_memory():

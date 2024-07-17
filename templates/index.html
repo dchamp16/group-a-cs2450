@@ -53,6 +53,13 @@
         </table>
     </div>
 
+    <h2 style="font-size: 1.25rem;">WRITE Command Outputs:</h2>
+    <ul style="font-size: 0.875rem;">
+        {% for output in write_outputs %}
+        <li>{{ output }}</li>
+        {% endfor %}
+    </ul>
+
     {% if message %}
     <div class="alert alert-info mt-3">{{ message }}</div>
     {% endif %}
