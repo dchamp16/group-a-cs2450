@@ -84,9 +84,12 @@ document.addEventListener("DOMContentLoaded", function() {
         let content = "";
 
         rows.forEach(row => {
-            const index = row.cells[0].innerText;
-            const value = row.cells[1].innerText;
-            content += `index: ${index} value: ${value}\n`;
+            let value = row.cells[1].innerText.trim();
+            value = value.padStart(4, '0'); // Add leading zeros if less than four digits
+            if (!value.startsWith('-')) {
+                value = '+' + value; // Add '+' in front of positive values
+            }
+            content += `${value}\n`;
         });
 
         const blob = new Blob([content], { type: "text/plain" });
