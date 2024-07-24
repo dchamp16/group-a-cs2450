@@ -1,5 +1,6 @@
 from memory import Memory
 
+
 class CPU:
     def __init__(self, memory):
         self.memory = memory
@@ -10,14 +11,17 @@ class CPU:
         self.input_operand = None
         self.write_outputs = []
 
+
     def load_program(self, program):
         if len(program) > len(self.memory):
             raise ValueError("Program size exceeds memory capacity")
         self.memory[:len(program)] = program
         self.instruction_counter = 0
-        print("Program loaded into memory:", self.memory)
+        print(f"Program loaded into memory: {self.memory}")
+
 
     def run(self):
+        print("Starting CPU execution")
         while self.running:
             if not self.waiting_for_input:
                 instruction = self.fetch()
@@ -30,6 +34,8 @@ class CPU:
                 break
         if self.waiting_for_input:
             print("Execution paused for input.")
+        else:
+            print("CPU execution completed")
 
     def fetch(self):
         if self.instruction_counter >= len(self.memory):

@@ -3,8 +3,9 @@ from uv_sim import UVSim
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = os.urandom(24)  # Replace with a randomly generated key
 
+# Initialize the simulator globally
 uv_sim = UVSim(memory_size=250)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -38,7 +39,6 @@ def index():
             input_prompt = 'second'
     return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate, write_outputs=uv_sim.cpu.write_outputs)
 
-
 @app.route('/load', methods=['POST'])
 def load():
     global uv_sim
@@ -60,6 +60,7 @@ def load():
     else:
         flash('No file uploaded.')
         return redirect(url_for('index'))
+
 
 @app.route('/run', methods=['POST'])
 def run():
