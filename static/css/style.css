@@ -9,7 +9,8 @@
 body {
     background-color: var(--off-color);
     color: var(--primary-color);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'rajdhani', Arial, sans-serif;
+    font-weight: bold;
     padding-top: 40px;
     padding-bottom: 40px;
 }

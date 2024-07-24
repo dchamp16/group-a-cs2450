@@ -56,15 +56,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 body: JSON.stringify({memory_location: location, instruction: parseInt(trimmedInstruction)}),
             })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.success) {
-                    alert('Error: ' + data.error);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         } else {
             alert('Please enter a valid number between -9999 and 9999.');
             document.querySelector(`td[data-location="${location}"]`).innerText = previousValue;

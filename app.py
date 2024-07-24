@@ -3,9 +3,8 @@ from uv_sim import UVSim
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Replace with a randomly generated key
+app.secret_key = os.urandom(24)
 
-# Initialize the simulator globally
 uv_sim = UVSim(memory_size=250)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -15,48 +14,17 @@ def index():
     input_prompt = ''
 
     if request.method == 'POST':
-        if 'file' in request.files:
-            files = request.files.getlist('file')
-            uv_sim.reset()  # Reset the simulator state before loading new files
-            for file in files:
-                file_content = file.read().decode().strip()
-                print(f"File content: {file_content}")  # Debug log
-                program = [int(line.replace('+', '')) for line in file_content.split()]
-                if program:
-                    uv_sim.load_program(program)
-                    print(f"Program loaded: {program}")  # Debug log
-                    uv_sim.run()
-                    print(f"Memory after run: {uv_sim.cpu.memory}")  # Debug log
-                    if uv_sim.cpu.waiting_for_input:
-                        message = 'Files loaded successfully. Waiting for input...'
-                        session['input_step'] = 1  # Set to first input step
-                    else:
-                        message = 'Files loaded successfully. Program halted.'
-                else:
-                    flash('Error: Program is empty')
-                    return redirect(url_for('index'))
-            flash(message)
-            return redirect(url_for('index'))
-        elif 'user_input' in request.form:
+        if 'user_input' in request.form:
             user_input = request.form['user_input']
-            if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) == 4 and -9999 <= int(
-                    user_input) <= 9999):
-                flash('Please enter a 4-digit integer (or negative 4-digit integer).')
+            if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) <= 4 and -9999 <= int(user_input) <= 9999):
+                flash('Please enter a valid 4-digit integer (or negative 4-digit integer).')
                 return redirect(url_for('index'))
             uv_sim.cpu.continue_execution(int(user_input))
-            print(f"Memory after input: {uv_sim.cpu.memory}")  # Debug log
             if uv_sim.cpu.waiting_for_input:
-                if session.get('input_step') == 1:
-                    session['input_step'] = 2  # Move to second input step
-                    flash('Please enter the second input.')
-                elif session.get('input_step') == 2:
-                    session['input_step'] = 0  # Reset input step
-                    flash('Input complete.')
-                return redirect(url_for('index'))
+                flash('Program running. Waiting for input...')
             else:
-                message = 'Program halted.'
-                flash(message)
-                return redirect(url_for('index'))
+                flash('Program halted.')
+            return redirect(url_for('index'))
 
     message = request.args.get('message', '')
     memory = uv_sim.cpu.memory if uv_sim.cpu.memory else []
@@ -69,6 +37,39 @@ def index():
         elif session.get('input_step') == 2:
             input_prompt = 'second'
     return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate, write_outputs=uv_sim.cpu.write_outputs)
+
+
+@app.route('/load', methods=['POST'])
+def load():
+    global uv_sim
+    uv_sim.reset()  # Reset the simulator state before loading new files
+    if 'file' in request.files:
+        files = request.files.getlist('file')
+        for file in files:
+            file_content = file.read().decode().strip()
+            print(f"File content: {file_content}")  # Debug log
+            program = [int(line.replace('+', '')) for line in file_content.split()]
+            if program:
+                uv_sim.load_program(program)
+                print(f"Program loaded: {program}")  # Debug log
+                flash('Files loaded successfully. You can now run the program.')
+            else:
+                flash('Error: Program is empty')
+                return redirect(url_for('index'))
+        return redirect(url_for('index'))
+    else:
+        flash('No file uploaded.')
+        return redirect(url_for('index'))
+
+@app.route('/run', methods=['POST'])
+def run():
+    global uv_sim
+    uv_sim.run()
+    if uv_sim.cpu.waiting_for_input:
+        flash('Program running. Waiting for input...')
+    else:
+        flash('Program halted.')
+    return redirect(url_for('index'))
 
 @app.route('/update_memory', methods=['POST'])
 def update_memory():
