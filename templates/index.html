@@ -14,10 +14,22 @@
 <div class="container my-5 p-4 shadow rounded">
     <h1 class="text-center mb-4">UVSim Program Loader</h1>
 
+
+
+
     <!-- Button to trigger the modal -->
     <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#colorModal">
         Customize Color Scheme
     </button>
+
+    <!-- Memory size input -->
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <label for="memory_size">Set Memory Size:</label>
+            <input type="number" class="form-control" id="memory_size" name="memory_size" required>
+            <button type="submit" class="btn btn-primary mt-2">Set Memory Size</button>
+        </div>
+    </form>
 
     <!-- Modal -->
     <div class="modal fade" id="colorModal" tabindex="-1" role="dialog" aria-labelledby="colorModalLabel" aria-hidden="true">

@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Replace with a randomly generated key
 
 # Initialize the simulator globally
-uv_sim = UVSim(memory_size=250)
+uv_sim = None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -15,6 +15,12 @@ def index():
     input_prompt = ''
 
     if request.method == 'POST':
+        if 'memory_size' in request.form:
+            memory_size = int(request.form['memory_size'])
+            uv_sim = UVSim(memory_size=memory_size)
+            flash('Memory size updated successfully.')
+            return redirect(url_for('index'))
+
         if 'user_input' in request.form:
             user_input = request.form['user_input']
             if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) <= 4 and -9999 <= int(user_input) <= 9999):
@@ -28,8 +34,8 @@ def index():
             return redirect(url_for('index'))
 
     message = request.args.get('message', '')
-    memory = uv_sim.cpu.memory if uv_sim.cpu.memory else []
-    input_required = uv_sim.cpu.waiting_for_input
+    memory = uv_sim.cpu.memory if uv_sim and uv_sim.cpu.memory else []
+    input_required = uv_sim and uv_sim.cpu.waiting_for_input
     operand = uv_sim.cpu.input_operand if input_required else None
     input_prompt = ''
     if input_required:
@@ -37,7 +43,7 @@ def index():
             input_prompt = 'first'
         elif session.get('input_step') == 2:
             input_prompt = 'second'
-    return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate, write_outputs=uv_sim.cpu.write_outputs)
+    return render_template('index.html', memory=memory, input_required=input_required, operand=operand, message=message, input_prompt=input_prompt, enumerate=enumerate, write_outputs=uv_sim.cpu.write_outputs if uv_sim else [])
 
 @app.route('/load', methods=['POST'])
 def load():
