@@ -55,6 +55,12 @@ def load():
             file_content = file.read().decode().strip()
             print(f"File content: {file_content}")  # Debug log
             program = [int(line.replace('+', '')) for line in file_content.split()]
+
+            # Error handling for memory overload
+            if len(program) > len(uv_sim.memory):
+                flash(f'Error: Program size ({len(program)}) exceeds memory capacity ({len(uv_sim.memory)}).')
+                return redirect(url_for('index'))
+
             if program:
                 uv_sim.load_program(program)
                 print(f"Program loaded: {program}")  # Debug log
@@ -66,6 +72,7 @@ def load():
     else:
         flash('No file uploaded.')
         return redirect(url_for('index'))
+
 
 
 @app.route('/run', methods=['POST'])
