@@ -7,7 +7,6 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running UVSim](#running-uvsim)
-- [BasicML Program Format](#basicml-program-format)
 - [Example Program](#example-program)
 - [Usage](#usage)
 - [File Structure](#file-structure)
@@ -24,6 +23,7 @@ UVSim is a Basic Machine Language Simulator is designed to teach student what ma
 - Execute and Load BasicML.
 - Simulator for machine language control flow and I/O.
 - It shows the state of memory and does accumulate when execution.
+- Users can change the memory size.
 
 ## Getting Started
 
@@ -164,7 +164,6 @@ ___
 
 Once the application is running, open your web browser and go to 
 
-## BasicML Program Format
 
 ### Example Program
 ```
@@ -175,6 +174,17 @@ Once the application is running, open your web browser and go to
 +1109  # Output the content of location 09
 +4300  # Halt execution
 ```
+
+## Usage
+
+### Changing Memory Size
+- Open the UVSim web interface in your browser.
+- Locate the "Set Memory Size" input field at the top of the page.
+- Enter the desired memory size (an integer value).
+- Click the "Set Memory Size" button.
+- The simulator will reset and initialize with the new memory size.
+
+
 
 ## File Structure
 
