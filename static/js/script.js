@@ -1,4 +1,3 @@
-// JavaScript to handle color scheme changes and save content
 document.addEventListener("DOMContentLoaded", function() {
     const primaryColorInput = document.getElementById("primaryColor");
     const offColorInput = document.getElementById("offColor");
@@ -54,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({memory_location: location, instruction: parseInt(trimmedInstruction)}),
+                body: JSON.stringify({ memory_location: location, instruction: parseInt(trimmedInstruction) }),
             })
                 .then(response => response.json())
                 .then(data => {
@@ -78,26 +77,30 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Save content to a text file
+    // Save content to a text file with a custom filename
     document.getElementById("saveContent").addEventListener("click", function() {
-        const rows = document.querySelectorAll(".table-container table tbody tr");
-        let content = "";
+        const filename = prompt("Enter the filename:", "content.txt");
 
-        rows.forEach(row => {
-            let value = row.cells[1].innerText.trim();
-            value = value.padStart(4, '0'); // Add leading zeros if less than four digits
-            if (!value.startsWith('-')) {
-                value = '+' + value; // Add '+' in front of positive values
-            }
-            content += `${value}\n`;
-        });
+        if (filename) {
+            const rows = document.querySelectorAll(".table-container table tbody tr");
+            let content = "";
 
-        const blob = new Blob([content], { type: "text/plain" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "content.txt";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+            rows.forEach(row => {
+                let value = row.cells[1].innerText.trim();
+                value = value.padStart(4, '0'); // Add leading zeros if less than four digits
+                if (!value.startsWith('-')) {
+                    value = '+' + value; // Add '+' in front of positive values
+                }
+                content += `${value}\n`;
+            });
+
+            const blob = new Blob([content], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     });
 });
