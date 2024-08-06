@@ -23,8 +23,9 @@ def index():
 
         if 'user_input' in request.form:
             user_input = request.form['user_input']
-            if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) <= 4 and -9999 <= int(user_input) <= 9999):
-                flash('Please enter a valid 4-digit integer (or negative 4-digit integer).')
+            # Changed validation to allow six-digit integers
+            if not (user_input.lstrip('-').isdigit() and len(user_input.replace('-', '')) <= 6 and -999999 <= int(user_input) <= 999999):
+                flash('Please enter a valid 6-digit integer (or negative 6-digit integer).')
                 return redirect(url_for('index'))
             uv_sim.cpu.continue_execution(int(user_input))
             if uv_sim.cpu.waiting_for_input:
@@ -93,11 +94,12 @@ def update_memory():
     if 0 <= memory_location < len(uv_sim.cpu.memory):
         try:
             instruction = int(instruction)
-            if -9999 <= instruction <= 9999:
+            # Changed validation to allow six-digit instructions
+            if -999999 <= instruction <= 999999:
                 uv_sim.cpu.memory[memory_location] = instruction
                 return jsonify({'success': True})
             else:
-                return jsonify({'success': False, 'error': 'Instruction out of bounds (-9999 to 9999)'}), 400
+                return jsonify({'success': False, 'error': 'Instruction out of bounds (-999999 to 999999)'}), 400
         except ValueError:
             return jsonify({'success': False, 'error': 'Invalid instruction format'}), 400
     return jsonify({'success': False, 'error': 'Invalid memory location'}), 400
