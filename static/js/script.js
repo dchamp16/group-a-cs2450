@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const offColorInput = document.getElementById("offColor");
     const applyButton = document.getElementById("applyColors");
     const resetButton = document.getElementById("resetColors");
+    const rerunButton = document.getElementById("rerunButton");
 
     const defaultPrimaryColor = "#4C721D";
     const defaultOffColor = "#FFFFFF";
@@ -47,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to update memory slot with validation
     window.updateMemory = function(location, instruction) {
         const trimmedInstruction = instruction.trim();
-        if (/^-?\d{1,4}$/.test(trimmedInstruction)) {
+        if (/^-?\d{1,6}$/.test(trimmedInstruction)) {
             fetch('/update_memory', {
                 method: 'POST',
                 headers: {
@@ -59,13 +60,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(data => {
                     if (!data.success) {
                         alert('Error: ' + data.error);
+                    } else {
+                        console.log('Memory updated successfully.'); // Debugging log
+                        rerunButton.style.display = 'block'; // Show re-run button
                     }
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
         } else {
-            alert('Please enter a valid number between -9999 and 9999.');
+            alert('Please enter a valid number between -999999 and 999999.');
             document.querySelector(`td[data-location="${location}"]`).innerText = previousValue;
         }
     };
@@ -75,6 +79,19 @@ document.addEventListener("DOMContentLoaded", function() {
         cell.addEventListener('focus', function() {
             previousValue = this.innerText.trim();
         });
+    });
+
+    // Handle re-run button click
+    rerunButton.addEventListener('click', function() {
+        fetch('/rerun', {
+            method: 'POST',
+        })
+            .then(() => {
+                location.reload(); // Reload to reflect changes
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     });
 
     // Save content to a text file with a custom filename

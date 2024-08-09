@@ -14,9 +14,6 @@
 <div class="container my-5 p-4 shadow rounded">
     <h1 class="text-center mb-4">UVSim Program Loader</h1>
 
-
-
-
     <!-- Button to trigger the modal -->
     <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#colorModal">
         Customize Color Scheme
@@ -87,12 +84,19 @@
         </table>
     </div>
 
-    <h2 style="font-size: 1.25rem;">WRITE Command Outputs:</h2>
-    <ul style="font-size: 0.875rem;">
+    <h2 class="mb-3" style="font-size: 1.25rem;">WRITE Command Outputs:</h2>
+    <ul class="list-group" style="font-size: 0.875rem; max-width: 600px;">
         {% for output in write_outputs %}
-        <li>{{ output }}</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-success">Output: {{ output
+                }}</span>
+            <span class="badge badge-{{ 'secondary' if output.type == 'rerun' else 'primary' }}">
+            {{ 'Re-run Output' if output.type == 'rerun' else 'Run Output' }}
+        </span>
+        </li>
         {% endfor %}
     </ul>
+
 
     {% if message %}
     <div class="alert alert-info mt-3">{{ message }}</div>
@@ -121,9 +125,11 @@
         <form method="post" action="{{ url_for('run') }}">
             <button type="submit" class="btn btn-success btn-lg mr-3">Run</button>
         </form>
+        <button id="rerunButton" class="btn btn-warning btn-lg mr-3" style="display:none;">Re-run</button>
         <button id="saveContent" class="btn btn-info btn-lg">Save</button>
     </div>
     {% endif %}
+
 </div>
 
 <!-- Bootstrap and jQuery scripts for responsive behavior and additional features -->

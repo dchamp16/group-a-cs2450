@@ -1,5 +1,3 @@
-from memory import Memory
-
 class CPU:
     def __init__(self, memory):
         self.memory = memory
@@ -9,12 +7,22 @@ class CPU:
         self.waiting_for_input = False
         self.input_operand = None
         self.write_outputs = []
+        self.inputs = {}  # Initialize inputs dictionary
+
+    def reset_state(self):
+        self.accumulator = 0
+        self.instruction_counter = 0
+        self.running = True
+        self.waiting_for_input = False
+        self.input_operand = None
+        self.inputs.clear()
 
     def load_program(self, program):
+        """Load a program into memory."""
         if len(program) > len(self.memory):
             raise ValueError("Program size exceeds memory capacity")
         self.memory[:len(program)] = program
-        self.instruction_counter = 0
+        self.reset_state()  # Reset the CPU state
         print(f"Program loaded into memory: {self.memory}")
 
     def run(self):
@@ -33,6 +41,21 @@ class CPU:
             print("Execution paused for input.")
         else:
             print("CPU execution completed")
+
+    def rerun(self):
+        print("Starting CPU re-execution without input requests")
+        self.reset_state()
+        while self.running:
+            instruction = self.fetch()
+            if instruction is not None:
+                opcode, operand = self.decode(instruction)
+                # Use updated value from memory if exists
+                if opcode == 10 and self.memory[operand] != 0:
+                    print(f"Using existing value for input at location {operand}: {self.memory[operand]}")
+                self.execute(opcode, operand)
+                self.overflow_check()
+        print("CPU re-execution completed")
+        print(self.memory)
 
     def fetch(self):
         if self.instruction_counter >= len(self.memory):
@@ -56,8 +79,13 @@ class CPU:
             self.halt()
             return
         print(f"Executing opcode {opcode} with operand {operand}")
-        if opcode == 10:
-            self.read(operand)
+        if opcode == 10:  # Input instruction
+            if operand in self.inputs:
+                # Use the input that was manually set by the user
+                self.memory[operand] = self.inputs[operand]
+                print(f"Using stored input for operand {operand}: {self.inputs[operand]}")
+            else:
+                self.read(operand)
         elif opcode == 11:
             self.write(operand)
         elif opcode == 20:
@@ -84,9 +112,21 @@ class CPU:
             print(f"Invalid opcode: {opcode}")
 
     def read(self, operand):
-        print(f"Setting up for input at location {operand}")
-        self.waiting_for_input = True
-        self.input_operand = operand
+        if operand in self.inputs:
+            print(f"Using stored input for operand {operand}")
+            self.memory[operand] = self.inputs[operand]
+        else:
+            print(f"Setting up for input at location {operand}")
+            self.waiting_for_input = True
+            self.input_operand = operand
+
+    def continue_execution(self, value):
+        print(f"Received input: {value} for location {self.input_operand}")
+        self.memory[self.input_operand] = value
+        self.inputs[self.input_operand] = value
+        self.waiting_for_input = False
+        print(f"Resuming execution, next instruction at index {self.instruction_counter}")
+        self.run()
 
     def write(self, operand):
         value = self.memory[operand]
@@ -134,13 +174,6 @@ class CPU:
         print("Halt command executed - stopping execution")
         self.running = False
 
-    def continue_execution(self, value):
-        print(f"Received input: {value} for location {self.input_operand}")
-        self.memory[self.input_operand] = value
-        self.waiting_for_input = False
-        print(f"Resuming execution, next instruction at index {self.instruction_counter}")
-        self.run()
-
     def display_memory(self):
         return str(self.memory)
 
@@ -149,3 +182,4 @@ class CPU:
             self.accumulator = 999999
         elif self.accumulator < -999999:
             self.accumulator = -999999
+
